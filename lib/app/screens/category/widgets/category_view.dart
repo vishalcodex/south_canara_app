@@ -1,13 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:south_canara/app/components/ui/rounded_container.dart';
+import 'package:south_canara/app/screens/home/controllers/home_controller.dart';
+
 import '../../../../common/color_pallete.dart';
 import '../../../components/ui/my_list_view.dart';
-import '../../../components/ui/rounded_container.dart';
 import '../../../components/ui/text_view.dart';
-import '../../../models/category_model.dart';
-import '../../home/controllers/home_controller.dart';
+import '../../../routes/app_routes.dart';
 import '../controllers/category_controller.dart';
 
 class CategoriesView extends GetView<CategoryController> {
@@ -33,47 +32,8 @@ class CategoriesView extends GetView<CategoryController> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 15.0 * fem),
-              child: controller.selectedCategory.value.name == null
-                  ? Shimmer.fromColors(
-                      baseColor: Colors.grey.withOpacity(0.5),
-                      highlightColor: Colors.white,
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 6,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                            mainAxisSpacing: 5 * fem,
-                            crossAxisSpacing: 5 * fem),
-                        itemBuilder: (context, index) {
-                          // bool isSelected = false;
-                          // Category cat = controller.categories.elementAt(
-                          //     index < controller.categories.length
-                          //         ? index
-                          //         : controller.categories.length - 1);
-                          // isSelected =
-                          //     cat.name == controller.selectedCategory.value.name;
-
-                          return InkWell(
-                            onTap: () {},
-                            child: RoundedContainer(
-                              radius: 10,
-                              clip: Clip.antiAliasWithSaveLayer,
-                              height: MediaQuery.of(context).size.width / 5,
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.5),
-                                child: RoundedContainer(
-                                  radius: 7.5,
-                                  clip: Clip.antiAliasWithSaveLayer,
-                                  color: ColorPallete.grey.withOpacity(0.5),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  : GridView.builder(
+              child: controller.selectedCategory["name"] != null
+                  ? GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: controller.categories.length + 1,
@@ -82,30 +42,24 @@ class CategoriesView extends GetView<CategoryController> {
                           mainAxisSpacing: 5 * fem,
                           crossAxisSpacing: 5 * fem),
                       itemBuilder: (context, index) {
+                        var cat;
                         bool isSelected = false;
-                        Category cat = controller.categories.elementAt(
-                            index < controller.categories.length
-                                ? index
-                                : controller.categories.length - 1);
-                        isSelected =
-                            cat.name == controller.selectedCategory.value.name;
+                        if (index != controller.categories.length) {
+                          cat = controller.categories.elementAt(index);
+                          isSelected = cat["name"] ==
+                              controller.selectedCategory["name"];
+                        }
 
                         return index == controller.categories.length
-                            ? InkWell(
-                                onTap: () {
-                                  Get.find<HomeController>().setTabIndex.value =
-                                      1;
-                                },
-                                child: RoundedContainer(
-                                  radius: 10,
-                                  color: ColorPallete.grey.withOpacity(0.25),
-                                  height: MediaQuery.of(context).size.width / 5,
-                                  child: const Center(
-                                    child: TextView(
-                                      text: "See More",
-                                      color: ColorPallete.secondary,
-                                      weight: FontWeight.w700,
-                                    ),
+                            ? RoundedContainer(
+                                radius: 10,
+                                color: ColorPallete.grey.withOpacity(0.25),
+                                height: MediaQuery.of(context).size.width / 5,
+                                child: const Center(
+                                  child: TextView(
+                                    text: "See More",
+                                    color: ColorPallete.secondary,
+                                    weight: FontWeight.w700,
                                   ),
                                 ),
                               )
@@ -116,69 +70,24 @@ class CategoriesView extends GetView<CategoryController> {
                                 },
                                 child: RoundedContainer(
                                   radius: 10,
-                                  clip: Clip.antiAliasWithSaveLayer,
-                                  borderColor:
-                                      isSelected ? ColorPallete.primary : null,
+                                  color: isSelected
+                                      ? ColorPallete.primary
+                                      : ColorPallete.grey.withOpacity(0.25),
                                   height: MediaQuery.of(context).size.width / 5,
-                                  child: Stack(
-                                    alignment: Alignment.bottomCenter,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(2.5),
-                                        child: RoundedContainer(
-                                          radius: 7.5,
-                                          clip: Clip.antiAliasWithSaveLayer,
-                                          child: CachedNetworkImage(
-                                            imageUrl: cat.image ?? "",
-                                            height: double.infinity,
-                                            width: double.infinity,
-                                            fit: BoxFit.fill,
-                                            placeholder: (context, url) {
-                                              return RoundedContainer(
-                                                radius: 0,
-                                                color: isSelected
-                                                    ? ColorPallete.primary
-                                                        .withOpacity(0.5)
-                                                    : ColorPallete.grey
-                                                        .withOpacity(0.25),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 5.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(boxShadow: [
-                                            BoxShadow(
-                                                blurRadius: 10,
-                                                spreadRadius: 2,
-                                                color: isSelected
-                                                    ? ColorPallete.theme
-                                                        .withOpacity(0.95)
-                                                    : ColorPallete.themeContrast
-                                                        .withOpacity(0.75))
-                                          ]),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: TextView(
-                                              text: cat.name ?? "",
-                                              color: isSelected
-                                                  ? ColorPallete.primary
-                                                  : ColorPallete.theme,
-                                              weight: FontWeight.bold,
-                                              // fontSize: 14,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  child: Center(
+                                    child: TextView(
+                                      text: cat["name"],
+                                      color: isSelected
+                                          ? ColorPallete.theme
+                                          : ColorPallete.secondary,
+                                      weight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                               );
                       },
-                    ),
+                    )
+                  : SizedBox.shrink(),
             ),
             // const TextView(
             //   text: "Please select your state",

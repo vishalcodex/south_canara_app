@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../common/color_pallete.dart';
-import '../../../common/utils.dart';
-import 'my_list_view.dart';
-import 'rounded_container.dart';
-import 'text_field.dart';
-import 'text_view.dart';
-import '../../../../../../common/transalations/translation_keys.dart'
+import '../../../../common/color_pallete.dart';
+import '../../../../common/utils.dart';
+import '../../../components/ui/my_list_view.dart';
+import '../../../components/ui/rounded_container.dart';
+import '../../../components/ui/text_field.dart';
+import '../../../components/ui/text_view.dart';
+import '../../../../../../../common/transalations/translation_keys.dart'
     as translations;
 
 enum InputType {

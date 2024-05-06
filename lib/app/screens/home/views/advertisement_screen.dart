@@ -36,7 +36,7 @@ class AdvertisementScreen extends StatelessWidget {
                 width: double.infinity,
                 clip: Clip.antiAliasWithSaveLayer,
                 child: Image.network(
-                  ad.sliderImage.toString(),
+                  ad.image.toString(),
                   fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) {
                     return Placeholder();
@@ -49,7 +49,7 @@ class AdvertisementScreen extends StatelessWidget {
               RoundedContainer(
                 radius: 0,
                 child: TextView(
-                  text: ad.sliderName.toString(),
+                  text: ad.title.toString(),
                   color: ColorPallete.secondary,
                   fontSize: 18,
                   weight: FontWeight.bold,
@@ -61,7 +61,7 @@ class AdvertisementScreen extends StatelessWidget {
               RoundedContainer(
                 radius: 0,
                 child: TextView(
-                  text: ad.sliderDescription.toString(),
+                  text: ad.description.toString(),
                   fontSize: 14,
                   color: ColorPallete.secondary,
                   alignment: TextAlign.justify,

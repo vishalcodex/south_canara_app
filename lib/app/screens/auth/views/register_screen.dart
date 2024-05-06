@@ -60,7 +60,6 @@ class RegisterScreen extends GetView<AuthController> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: MyListView(
-                                    scroll: true,
                                     // mainAxisSize: MainAxisSize.min,
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -203,10 +202,6 @@ class RegisterScreen extends GetView<AuthController> {
                                               height: 20,
                                             ),
                                             TextFormField(
-                                              readOnly: (controller.user.value
-                                                          .phoneNumber ??
-                                                      "") !=
-                                                  "",
                                               initialValue: controller
                                                   .user.value.phoneNumber,
                                               cursorColor:
@@ -244,47 +239,6 @@ class RegisterScreen extends GetView<AuthController> {
                                               onChanged: (value) {
                                                 controller.creds[
                                                     "mobile_number"] = value;
-                                              },
-                                            ),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            TextFormField(
-                                              cursorColor:
-                                                  ColorPallete.secondary,
-                                              decoration:
-                                                  InputDecoration().copyWith(
-                                                labelText:
-                                                    translations.email.tr,
-                                                labelStyle: const TextStyle(
-                                                    fontSize: 16,
-                                                    color:
-                                                        ColorPallete.secondary),
-                                                enabledBorder:
-                                                    const OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: ColorPallete
-                                                          .secondary),
-                                                ),
-                                                focusedBorder:
-                                                    const OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: ColorPallete
-                                                          .secondary),
-                                                ),
-                                              ),
-                                              validator: (value) {
-                                                if (value!.isEmpty) {
-                                                  return 'Please enter text';
-                                                }
-                                                if (value.length < 6) {
-                                                  return 'Password should be at least 6 characters long';
-                                                }
-                                                return null;
-                                              },
-                                              onChanged: (value) {
-                                                controller.creds["email"] =
-                                                    value;
                                               },
                                             ),
                                             const SizedBox(
@@ -405,10 +359,7 @@ class RegisterScreen extends GetView<AuthController> {
                                                 const Spacer(),
                                                 InkWell(
                                                   onTap: () {
-                                                    if (!controller
-                                                        .isLoading.value) {
-                                                      controller.register();
-                                                    }
+                                                    controller.register();
                                                   },
                                                   // inkwell color
                                                   child: RoundedContainer(

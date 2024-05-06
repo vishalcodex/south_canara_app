@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:south_canara/app/screens/category/controllers/category_controller.dart';
+import 'package:south_canara/app/screens/category/views/categories_screen.dart';
+import 'package:south_canara/app/services/razorpay_gateway_service.dart';
 
 import '../../../models/ads_model.dart';
 import '../../../models/api_response.dart';
@@ -10,9 +13,6 @@ import '../../../repositories/slider_repository.dart';
 import '../../../repositories/user_repository.dart';
 import '../../../routes/app_routes.dart';
 import '../../../services/auth_service.dart';
-import '../../../services/razorpay_gateway_service.dart';
-import '../../category/controllers/category_controller.dart';
-import '../../category/views/categories_screen.dart';
 import '../views/contact_us_view.dart';
 import '../views/home_view.dart';
 import '../../../../../../../common/transalations/translation_keys.dart'
@@ -152,20 +152,18 @@ class HomeController extends GetxController {
 
   void homeRefresh() async {
     // updateUser();
-    fetchSliders();
-    Get.find<CategoryController>().fetchCategories();
+    // fetchSliders();
+    // fetchCategories();
   }
 
   fetchSliders() async {
     ads.value = [];
     await _sliderRepository.fetchSliders().then((value) {
-      if (value.status == Status.COMPLETED) {
-        if (value.data != []) {
-          ads.value = value.data;
-          selectedAd.value = ads.first.id!;
-        } else {}
-        ads.refresh();
-      }
+      if (value.data != []) {
+        ads.value = value.data;
+        selectedAd.value = ads.first.id!;
+      } else {}
+      ads.refresh();
     });
   }
 

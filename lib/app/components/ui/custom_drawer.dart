@@ -100,20 +100,6 @@ class CustomDrawer extends GetView<HomeController> {
                     ),
                     DrawerItem(
                       image: "assets/ui/user.png",
-                      title: "Profile",
-                      onPressed: () {
-                        Get.back();
-                        Get.toNamed(
-                          Routes.MY_PROFILE,
-                        );
-                        // controller.setTabIndex.value = 1;
-                      },
-                    ),
-                    SizedBox(
-                      height: 5 * fem,
-                    ),
-                    DrawerItem(
-                      image: "assets/ui/user.png",
                       title: "Vendor View",
                       onPressed: () {
                         Get.back();
@@ -123,7 +109,6 @@ class CustomDrawer extends GetView<HomeController> {
                         // controller.setTabIndex.value = 1;
                       },
                     ),
-
                     SizedBox(
                       height: 5 * fem,
                     ),
@@ -140,27 +125,7 @@ class CustomDrawer extends GetView<HomeController> {
                       image: "assets/ui/settings.png",
                       title: translations.aboutUs.tr,
                       onPressed: () {
-                        Get.toNamed(Routes.ABOUT_US);
-                      },
-                    ),
-                    SizedBox(
-                      height: 5 * fem,
-                    ),
-                    DrawerItem(
-                      image: "assets/ui/certificates.png",
-                      title: "Terms & Condtions",
-                      onPressed: () {
-                        Get.toNamed(Routes.TERMS_N_CONDITIONS);
-                      },
-                    ),
-                    SizedBox(
-                      height: 5 * fem,
-                    ),
-                    DrawerItem(
-                      image: "assets/ui/certificates.png",
-                      title: "Privacy Policy",
-                      onPressed: () {
-                        Get.toNamed(Routes.PRIVACY_POLICY);
+                        controller.setTabIndex.value = 2;
                       },
                     ),
                     SizedBox(

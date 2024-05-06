@@ -6,6 +6,7 @@ import '../../../components/ui/custom_bottom_nav_bar.dart';
 import '../../../components/ui/custom_drawer.dart';
 import '../../../components/ui/rounded_container.dart';
 import '../../../components/ui/text_view.dart';
+import '../../membership/controllers/membership_controller.dart';
 import '../controllers/home_controller.dart';
 
 // ignore: must_be_immutable
@@ -13,8 +14,8 @@ class MainScreen extends GetView<HomeController> {
   const MainScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // double baseWidth = 360;
-    // double fem = MediaQuery.of(context).size.width / baseWidth;
+    double baseWidth = 360;
+    double fem = MediaQuery.of(context).size.width / baseWidth;
     // double ffem = fem * 0.97;
     return Scaffold(
       backgroundColor: ColorPallete.primary,
