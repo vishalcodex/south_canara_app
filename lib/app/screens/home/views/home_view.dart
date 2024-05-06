@@ -1,5 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:south_canara/app/models/ads_model.dart';
+import 'package:south_canara/app/screens/category/widgets/category_view.dart';
+
 import '../../../../common/color_pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,9 +9,7 @@ import 'package:get/get.dart';
 import '../../../components/ui/my_list_view.dart';
 import '../../../components/ui/rounded_container.dart';
 import '../../../components/ui/text_view.dart';
-import '../../../models/ads_model.dart';
 import '../../../routes/app_routes.dart';
-import '../../category/widgets/category_view.dart';
 import '../controllers/home_controller.dart';
 
 // ignore: must_be_immutable
@@ -107,8 +107,8 @@ class HomeView extends GetView<HomeController> {
                   Get.toNamed(
                     Routes.ADVERTISEMENT,
                     arguments: Ads(
-                        sliderName: "Slider Title",
-                        sliderDescription: "Slider Description"),
+                        title: "Slider Title",
+                        description: "Slider Description"),
                   );
                 },
                 child: Shimmer.fromColors(
@@ -145,8 +145,8 @@ class HomeView extends GetView<HomeController> {
                                       offset: Offset(0, 0 * fem),
                                       color: ColorPallete.grey.withOpacity(0.1))
                                 ]),
-                                child: CachedNetworkImage(
-                                  imageUrl: e.sliderImage!,
+                                child: Image.network(
+                                  e.image!,
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -209,6 +209,96 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
+  _aboutSocialCardify() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+      child: MyListView(
+        children: [
+          TextView(
+            text: "Social Cardify Websites",
+            weight: FontWeight.bold,
+            fontSize: 16,
+            color: ColorPallete.secondary,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          TextView(
+            text:
+                "We provide a beautiful website builder in min Price and Flexible Web Development",
+            fontSize: 16,
+            color: ColorPallete.secondary,
+          ),
+        ],
+      ),
+    );
+  }
+
+  _howToUseApp() {
+    return MyListView(
+      children: [
+        Center(
+          child: TextView(
+            text: "How to use the App ?",
+            fontSize: 16,
+            weight: FontWeight.bold,
+            color: ColorPallete.secondary,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              RoundedContainer(
+                radius: 5,
+                color: ColorPallete.grey.withOpacity(0.25),
+                height: 200,
+              ),
+              Center(
+                child: Icon(
+                  Icons.play_circle_filled_rounded,
+                  size: 50,
+                  color: ColorPallete.grey,
+                ),
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Center(
+            child: InkWell(
+              onTap: () {
+                Get.toNamed(Routes.CREATE_WEBSITE);
+              },
+              child: RoundedContainer(
+                radius: 10,
+                color: ColorPallete.primary,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Center(
+                    child: TextView(
+                      text: "Create Website",
+                      color: ColorPallete.theme,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   _buildCategories(
       HomeController controller, double fem, BuildContext context) {
     return InkWell(
@@ -238,6 +328,31 @@ class HomeView extends GetView<HomeController> {
                           radius: 0,
                           child: Column(
                             children: [
+                              // InkWell(
+                              //   onTap: () {
+                              //     Get.toNamed(Routes.BLOG, arguments: {
+                              //       "category":
+                              //           Category(catName: "Category Name")
+                              //     });
+                              //   },
+                              //   child: Row(
+                              //     children: [
+                              //       const RoundedContainer(
+                              //         radius: 5,
+                              //         color: ColorPallete.grey,
+                              //         width: 100,
+                              //         height: 10,
+                              //       ),
+                              //       const Spacer(),
+                              //       TextView(
+                              //         text: translations.readMore.tr,
+                              //         color: ColorPallete.grey,
+                              //         weight: FontWeight.bold,
+                              //         fontSize: 14,
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
                               SizedBox(
                                 height: 7.5 * fem,
                               ),
@@ -291,7 +406,7 @@ class HomeView extends GetView<HomeController> {
                             Row(
                               children: [
                                 TextView(
-                                  text: category.name!,
+                                  text: category.catName!,
                                   color: ColorPallete.secondary,
                                   fontSize: 14,
                                   weight: FontWeight.bold,
@@ -317,43 +432,43 @@ class HomeView extends GetView<HomeController> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  // Expanded(
-                                  //   child: MyListView(
-                                  //     isRow: true,
-                                  //     scroll: true,
-                                  //     children: category.blogs!
-                                  //         .map(
-                                  //           (blog) => Padding(
-                                  //             padding: EdgeInsets.symmetric(
-                                  //                 horizontal: 3 * fem),
-                                  //             child: InkWell(
-                                  //               onTap: () {
-                                  //                 Get.toNamed(
-                                  //                     Routes.BLOG_DETAILS,
-                                  //                     arguments: {
-                                  //                       "blog": blog
-                                  //                     });
-                                  //               },
-                                  //               child: RoundedContainer(
-                                  //                 radius: 10,
-                                  //                 clip: Clip.antiAlias,
-                                  //                 width: MediaQuery.of(context)
-                                  //                         .size
-                                  //                         .width /
-                                  //                     3,
-                                  //                 color: ColorPallete.primary
-                                  //                     .withOpacity(0.5),
-                                  //                 child: Image.network(
-                                  //                   blog.filename!,
-                                  //                   fit: BoxFit.fill,
-                                  //                 ),
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //         )
-                                  //         .toList(),
-                                  //   ),
-                                  // ),
+                                  Expanded(
+                                    child: MyListView(
+                                      isRow: true,
+                                      scroll: true,
+                                      children: category.blogs!
+                                          .map(
+                                            (blog) => Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 3 * fem),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Get.toNamed(
+                                                      Routes.BLOG_DETAILS,
+                                                      arguments: {
+                                                        "blog": blog
+                                                      });
+                                                },
+                                                child: RoundedContainer(
+                                                  radius: 10,
+                                                  clip: Clip.antiAlias,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      3,
+                                                  color: ColorPallete.primary
+                                                      .withOpacity(0.5),
+                                                  child: Image.network(
+                                                    blog.filename!,
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
                                 ],
                               ),
                             )

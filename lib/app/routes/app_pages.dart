@@ -1,20 +1,24 @@
-import 'package:south_canara/app/screens/home/views/privacy_policy_screen.dart';
+import 'package:south_canara/app/screens/category/binding/category_binding.dart';
+import 'package:south_canara/app/screens/category/views/categories_screen.dart';
 
 import '../middlewares/onboarding_middleware.dart';
 import '../screens/account/views/my_profile.dart';
 import '../components/congrats_screen.dart';
-import '../screens/auth/views/forgot_password_screen.dart';
+import '../screens/auth/views/get_started.dart';
 import '../screens/auth/views/login_screen.dart';
 import '../screens/auth/views/register_screen.dart';
-import '../screens/category/binding/category_binding.dart';
-import '../screens/category/views/categories_screen.dart';
-import '../screens/home/views/about_us_view.dart';
 import '../screens/home/views/create_website_screen.dart';
 import '../screens/home/views/package_screen.dart';
-import '../screens/home/views/terms_n_condition.dart';
 import '../screens/payment/binding/payment_binding.dart';
 import '../screens/payment/views/payment_complete_screen.dart';
 import '../screens/payment/views/payment_screen.dart';
+import '../screens/signup/binding/busniess_up_binding.dart';
+import '../screens/signup/binding/sign_up_binding.dart';
+import '../screens/signup/views/business_cateogry_form_screen.dart';
+import '../screens/signup/views/business_contact_us_form_screen.dart';
+import '../screens/signup/views/business_details_form_screen.dart';
+import '../screens/signup/views/business_testimonial_form_screen.dart';
+import '../screens/signup/views/sign_up_screen.dart';
 
 import 'package:get/get.dart';
 import '../components/splash.dart';
@@ -27,6 +31,11 @@ import '../screens/blog/views/blog_screen.dart';
 import '../screens/home/binding/home_binding.dart';
 import '../screens/home/views/advertisement_screen.dart';
 import '../screens/home/views/dashboard_screen.dart';
+import '../screens/onboarding/binding/onboarding_binding.dart';
+import '../screens/onboarding/views/onboarding_view.dart';
+import '../screens/template/binding/template_binding.dart';
+import '../screens/template/views/template_preview_screen.dart';
+import '../screens/template/views/templates_screen.dart';
 import '../screens/vendor/binding/vendor_binding.dart';
 import '../screens/vendor/views/enquires/enquires.dart';
 import '../screens/vendor/views/messages/admin_messages.dart';
@@ -49,6 +58,17 @@ class AppPages {
       // middlewares: [AuthMiddleware()]
     ),
     GetPage(
+      name: Routes.GET_STARTED,
+      page: () => GetStarted(),
+      binding: OnboardBinding(),
+      // middlewares: [AuthMiddleware()]
+    ),
+    GetPage(
+      name: Routes.ONBOARDING,
+      page: () => OnBoardingScreen(),
+      // binding: HomeBinding(),
+    ),
+    GetPage(
       name: Routes.HOME,
       page: () => MainScreen(),
       binding: HomeBinding(),
@@ -60,12 +80,12 @@ class AppPages {
       binding: AuthBinding(),
       // middlewares: [OnBoardingMiddleWare()],
     ),
-    GetPage(
-      name: Routes.FORGOT_PASSWORD,
-      page: () => ForgotPasswordScreen(),
-      binding: AuthBinding(),
-      // middlewares: [OnBoardingMiddleWare()],
-    ),
+    // GetPage(
+    //   name: Routes.FORGOT_PASSWORD,
+    //   page: () => ForgotPasswordScreen(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [OnBoardingMiddleWare()],
+    // ),
     GetPage(
       name: Routes.LOGIN,
       page: () => LoginScreen(),
@@ -76,6 +96,12 @@ class AppPages {
       name: Routes.REGISTER,
       page: () => RegisterScreen(),
       binding: AuthBinding(),
+      // middlewares: [OnBoardingMiddleWare()],
+    ),
+    GetPage(
+      name: Routes.SIGN_UP,
+      page: () => SignUpScreen(),
+      binding: SignUpBinding(),
       // middlewares: [OnBoardingMiddleWare()],
     ),
     GetPage(
@@ -93,24 +119,6 @@ class AppPages {
     GetPage(
       name: Routes.ADVERTISEMENT,
       page: () => AdvertisementScreen(),
-      binding: HomeBinding(),
-      // middlewares: [OnBoardingMiddleWare()],
-    ),
-    GetPage(
-      name: Routes.ABOUT_US,
-      page: () => AboutUsView(),
-      binding: HomeBinding(),
-      // middlewares: [OnBoardingMiddleWare()],
-    ),
-    GetPage(
-      name: Routes.TERMS_N_CONDITIONS,
-      page: () => TermsAndCondtionsScreen(),
-      binding: HomeBinding(),
-      // middlewares: [OnBoardingMiddleWare()],
-    ),
-    GetPage(
-      name: Routes.PRIVACY_POLICY,
-      page: () => PrivacyPolicyScreen(),
       binding: HomeBinding(),
       // middlewares: [OnBoardingMiddleWare()],
     ),
@@ -154,6 +162,44 @@ class AppPages {
       name: Routes.PACKAGES,
       page: () => PackagesScreen(),
       binding: HomeBinding(),
+      // middlewares: [OnBoardingMiddleWare()],
+    ),
+    GetPage(
+      name: Routes.TEMPLATES,
+      page: () => TemplatesScreen(),
+      binding: TemplateBinding(),
+      // middlewares: [OnBoardingMiddleWare()],
+    ),
+    GetPage(
+      name: Routes.TEMPLATE_PREVIEW,
+      page: () => TemplatePreviewScreen(),
+      binding: TemplateBinding(),
+      // middlewares: [OnBoardingMiddleWare()],
+    ),
+
+    GetPage(
+      name: Routes.BUSINESS_DETAIL_FORM,
+      page: () => BusinessDetailFormScreen(),
+      binding: BusinessBinding(),
+      // middlewares: [OnBoardingMiddleWare()],
+    ),
+
+    GetPage(
+      name: Routes.BUSINESS_CATEGORY_FORM,
+      page: () => BusinessCategoryFormScreen(),
+      binding: BusinessBinding(),
+      // middlewares: [OnBoardingMiddleWare()],
+    ),
+    GetPage(
+      name: Routes.BUSINESS_TESTIMONIALS_FORM,
+      page: () => BusinessTestimonialFormScreen(),
+      binding: BusinessBinding(),
+      // middlewares: [OnBoardingMiddleWare()],
+    ),
+    GetPage(
+      name: Routes.BUSINESS_CONTACT_US_FORM,
+      page: () => BusinessContactUsFormScreen(),
+      binding: BusinessBinding(),
       // middlewares: [OnBoardingMiddleWare()],
     ),
     GetPage(

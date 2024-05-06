@@ -1,6 +1,7 @@
 class Urls {
-  static const baseUrl = "https://south-canara.digitalji.in/";
-  static const apiPath = "api/";
+  // static const baseUrl = "https://smylebank-api.vercel.app/";
+  static const baseUrl = "https://ncp.truspirit.in/";
+  static const apiPath = "api/v1/";
   static const imagePath = "storage/";
   static const login = "login";
   static const tokenLogin = "";

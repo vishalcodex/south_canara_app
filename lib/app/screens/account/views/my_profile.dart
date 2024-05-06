@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/color_pallete.dart';
-import '../../../components/ui/my_list_view.dart';
 import '../../../components/ui/rounded_container.dart';
 import '../../../components/ui/text_view.dart';
 import '../../home/controllers/home_controller.dart';
 
 // ignore: must_be_immutable
 class MyProfileScreen extends GetView<HomeController> {
-  const MyProfileScreen({Key? key}) : super(key: key);
+  MyProfileScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double baseWidth = 360;
@@ -17,185 +16,267 @@ class MyProfileScreen extends GetView<HomeController> {
     // double ffem = fem * 0.97;
     return Scaffold(
       backgroundColor: ColorPallete.theme,
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: ColorPallete.theme),
-        backgroundColor: ColorPallete.primary,
-        title: const TextView(
-          text: "Profile",
-          color: ColorPallete.theme,
-          fontSize: 18,
-          weight: FontWeight.bold,
-        ),
-      ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Obx(
-                () => controller.user.value.name == null
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          color: ColorPallete.primary,
-                        ),
-                      )
-                    : MyListView(
-                        scroll: true,
+          child: Scaffold(
+        backgroundColor: ColorPallete.theme,
+        // appBar: PreferredSize(
+        //   preferredSize: Size.fromHeight(50.0 * fem),
+        //   child: CustomAppBar(
+        //     pageName: "My Profile",
+        //     onBackPressed: () {
+        //       Get.back();
+        //     },
+        //   ),
+        // ),
+        body: SingleChildScrollView(child: Obx(
+          () {
+            return Container(
+                height: 550 * fem,
+                padding: EdgeInsets.all(20 * fem),
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 10 * fem,
+                    ),
+                    // NAME
+                    Container(
+                      // frame778391C (277:29591)
+                      // margin: EdgeInsets.fromLTRB(
+                      //     0 * fem, 0 * fem, 1 * fem, 13 * fem),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 70 * fem, vertical: 35 * fem),
+                      width: 320 * fem,
+                      decoration: BoxDecoration(
+                        color: Color(0xfffafaff),
+                        borderRadius: BorderRadius.circular(20 * fem),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 25 * fem,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                "assets/ui/profile.png",
-                                height: 100 * fem,
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15 * fem,
-                          ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TextView(
-                                text: "South Canara",
-                                // controller
-                                //     .user.value.accountName!.capitalize!,
-                                fontSize: 18,
-                                weight: FontWeight.bold,
-                              )
-                            ],
-                          ),
+                          // Container(
+                          //   width: double.infinity,
+                          //   height: 80 * fem,
+                          //   child: Stack(
+                          //     alignment: Alignment.center,
+                          //     children: [
+                          //       Positioned(
+                          //         child: Container(
+                          //           width: 70 * fem,
+                          //           height: 70 * fem,
+                          //           clipBehavior: Clip.antiAliasWithSaveLayer,
+                          //           decoration: BoxDecoration(
+                          //               border: Border.all(
+                          //                   color: ColorPallete.primaryAccent,
+                          //                   width: 3 * fem),
+                          //               borderRadius:
+                          //                   BorderRadius.circular(50 * fem)),
+                          //           child: controller.user.value.image != null
+                          //               ? Container(
+                          //                   clipBehavior:
+                          //                       Clip.antiAliasWithSaveLayer,
+                          //                   decoration: BoxDecoration(
+                          //                       borderRadius:
+                          //                           BorderRadius.circular(
+                          //                               50 * fem)),
+                          //                   child: Image.network(
+                          //                     width: 120 * fem,
+                          //                     height: 80 * fem,
+                          //                     (controller.user.value.image!),
+                          //                     fit: BoxFit.cover,
+                          //                   ),
+                          //                 )
+                          //               : const Center(
+                          //                   child: TextView(
+                          //                     text: "OM",
+                          //                     fontSize: 24,
+                          //                     weight: FontWeight.w600,
+                          //                     color: ColorPallete.primaryAccent,
+                          //                   ),
+                          //                 ),
+                          //         ),
+                          //       ),
+                          //       Positioned(
+                          //         // ellipse95Eyg (277:29595)
+                          //         right: 50 * fem,
+                          //         top: 50 * fem,
+                          //         child: ImageInput(
+                          //           callback: (img) {
+                          //             controller.user.value.image = img;
+                          //             controller.updateUser();
+                          //             // controller.update();
+                          //           },
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   height: 10 * fem,
+                          // ),
+                          // Container(
+                          //   // frame2608882kKk (277:29607)
+                          //   width: double.infinity,
+                          //   child: Column(
+                          //     crossAxisAlignment: CrossAxisAlignment.center,
+                          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          //     children: [
+                          //       Container(
+                          //           // color: Colors.red,
+                          //           // hassaankhan578 (277:29601)
+
+                          //           child: const TextView(text: "")),
+                          //       SizedBox(
+                          //         height: 5 * fem,
+                          //       ),
+                          //       // TextView(
+                          //       //   text: '${controller.user.value.id} (ID)',
+                          //       //   alignment: TextAlign.center,
+                          //       //   fontSize: 14,
+                          //       //   color: ColorPallete.primary,
+                          //       // )
+                          //     ],
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30 * fem,
+                    ),
+                    // MOBILE
+                    // if (controller.user.value.phoneNumber != null &&
+                    //     controller.user.value.phoneNumber != "")
+                    Container(
+                      // color: Colors.yellow,
+                      height: 50 * fem,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
                           Padding(
-                            padding: EdgeInsets.all(15.0 * fem),
-                            child: MyListView(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              width: 30 * fem,
+                              height: 30 * fem,
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                color: ColorPallete.primary.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular((5 * fem)),
+                              ),
+                              child: const Icon(
+                                Icons.phone,
+                                color: ColorPallete.primary,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10 * fem,
+                          ),
+                          const Expanded(
+                            child: RoundedContainer(
+                              radius: 0,
+                              child: TextView(
+                                text: "Mobile",
+                                fontSize: 16,
+                                weight: FontWeight.w600,
+                                color: ColorPallete.primary,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10 * fem),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                const RoundedContainer(
+                                  radius: 0,
+                                  child: TextView(
+                                    text: "+91 9969383542",
+                                    alignment: TextAlign.right,
+                                    fontSize: 14,
+                                    color: ColorPallete.grey,
+                                  ),
+                                ),
                                 SizedBox(
-                                  height: 5 * fem,
-                                ),
-                                EntryWidget(
-                                  title: "Name",
-                                  value: controller.user.value.name!,
-                                  icon: Icons.person,
-                                ),
-                                // Row(
-                                //   crossAxisAlignment: CrossAxisAlignment.center,
-                                //   children: [
-                                //     Expanded(
-                                //       child: EntryWidget(
-                                //         title: "Username",
-                                //         value: controller.user.value.username!,
-                                //         icon: Icons.alternate_email,
-                                //       ),
-                                //     ),
-                                //     RoundedContainer(
-                                //       radius: 0,
-                                //       child: Column(
-                                //         children: [
-                                //           const TextView(
-                                //             text: "",
-                                //             color: ColorPallete.secondary,
-                                //             fontSize: 12,
-                                //           ),
-                                //           SizedBox(
-                                //             height: 5 * fem,
-                                //           ),
-                                //           InkWell(
-                                //             onTap: () async {
-                                //               await Clipboard.setData(
-                                //                       ClipboardData(
-                                //                           text: controller.user
-                                //                               .value.username!))
-                                //                   .then((value) {
-                                //                 Get.showSnackbar(
-                                //                   const GetSnackBar(
-                                //                     backgroundColor:
-                                //                         ColorPallete.primary,
-                                //                     duration:
-                                //                         Duration(seconds: 3),
-                                //                     message:
-                                //                         "Usernaem copied to Clipboard",
-                                //                   ),
-                                //                 );
-                                //               });
-                                //             },
-                                //             child: Padding(
-                                //               padding: EdgeInsets.symmetric(
-                                //                   horizontal: 5.0 * fem),
-                                //               child: const Center(
-                                //                 child: Icon(
-                                //                   Icons.copy,
-                                //                   color: ColorPallete.primary,
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //           ),
-                                //         ],
-                                //       ),
-                                //     )
-                                //   ],
-                                // ),
-
-                                EntryWidget(
-                                  title: "Email",
-                                  value: controller.user.value.email!,
-                                  icon: Icons.email,
-                                ),
-
-                                EntryWidget(
-                                  title: "Phone Number",
-                                  value: controller.user.value.phoneNumber!,
-                                  icon: Icons.phone,
-                                ),
-                                // if (controller.user.value.referralCode != "")
-                                //   EntryWidget(
-                                //     title: "Referral Code",
-                                //     value: controller.user.value.referralCode!,
-                                //     icon: Icons.alternate_email,
-                                //   ),
-                                // EntryWidget(
-                                //   title: "Membership Id",
-                                //   value: controller.user.value.membregNo!,
-                                //   icon: Icons.card_membership,
-                                // ),
-                                SizedBox(
-                                  height: 5 * fem,
+                                  width: 10 * fem,
                                 ),
                               ],
                             ),
-                          ),
+                          )
                         ],
                       ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(10.0 * fem),
-              child: InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: RoundedContainer(
-                  radius: 10,
-                  color: ColorPallete.primary,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15.0 * fem),
-                    child: const Center(
-                      child: TextView(
-                        text: "Return to Home",
-                        color: ColorPallete.theme,
-                        weight: FontWeight.w600,
-                        fontSize: 18,
-                      ),
                     ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+                    SizedBox(
+                      height: 10 * fem,
+                    ),
+                    // EMAIL
+
+                    Container(
+                      // color: Colors.yellow,
+                      height: 50 * fem,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              width: 30 * fem,
+                              height: 30 * fem,
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                color: ColorPallete.primary.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular((5 * fem)),
+                              ),
+                              child: const Icon(
+                                Icons.email,
+                                color: ColorPallete.primary,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10 * fem,
+                          ),
+                          const Expanded(
+                            child: RoundedContainer(
+                              radius: 0,
+                              child: TextView(
+                                text: "Email",
+                                fontSize: 16,
+                                weight: FontWeight.w600,
+                                color: ColorPallete.primary,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10 * fem),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const RoundedContainer(
+                                  radius: 0,
+                                  child: TextView(
+                                    text: "karomhatre@gmail.com",
+                                    alignment: TextAlign.right,
+                                    fontSize: 14,
+                                    color: ColorPallete.grey,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10 * fem,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ));
+          },
+        )),
+      )),
     );
   }
 
@@ -212,68 +293,5 @@ class MyProfileScreen extends GetView<HomeController> {
       }
     }
     return initials;
-  }
-}
-
-class EntryWidget extends StatelessWidget {
-  final String title;
-  final String value;
-  final IconData icon;
-  const EntryWidget(
-      {super.key,
-      required this.title,
-      required this.value,
-      required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    double baseWidth = 360;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.0 * fem, horizontal: 10 * fem),
-      child: RoundedContainer(
-        radius: 0,
-        child: MyListView(
-          children: [
-            TextView(
-              text: title,
-              color: ColorPallete.secondary,
-              fontSize: 12,
-            ),
-            SizedBox(
-              height: 5 * fem,
-            ),
-            RoundedContainer(
-              radius: 10,
-              color: ColorPallete.primary.withOpacity(0.1),
-              child: Padding(
-                padding: EdgeInsets.all(10.0 * fem),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextView(
-                        text: value == "" ? "NA" : value,
-                        color: ColorPallete.primary,
-                        fontSize: 16,
-                        maxlines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        weight: FontWeight.w500,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5 * fem),
-                      child: Icon(
-                        icon,
-                        color: ColorPallete.primary,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 }
