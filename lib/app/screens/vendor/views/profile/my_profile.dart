@@ -50,28 +50,32 @@ class ProfileEditScreen extends GetView<VendorController> {
                             children: [
                               Stack(
                                 children: [
-                                  ImageInput(
-                                    callback: (img) {},
-                                    child: RoundedContainer(
-                                      borderColor: ColorPallete.primary,
-                                      radius: 125,
-                                      height: 125,
-                                      width: 125,
-                                      child: Icon(
-                                        Icons.photo_outlined,
-                                        size: 50,
-                                        color: ColorPallete.grey,
-                                      ),
+                                  RoundedContainer(
+                                    borderColor: ColorPallete.primary,
+                                    radius: 125,
+                                    height: 125,
+                                    width: 125,
+                                    child: Icon(
+                                      Icons.photo_outlined,
+                                      size: 50,
+                                      color: ColorPallete.grey,
                                     ),
                                   ),
                                   Positioned(
                                     right: 0,
                                     bottom: 0,
-                                    child: CircleAvatar(
-                                      backgroundColor: ColorPallete.primary,
-                                      child: Icon(
-                                        Icons.camera_alt_outlined,
-                                        color: ColorPallete.theme,
+                                    child: ImageInput(
+                                      callback: (img) {
+                                        controller.vendorDetails.value
+                                            .profileImage = img;
+                                        controller.vendorDetails.refresh();
+                                      },
+                                      child: const CircleAvatar(
+                                        backgroundColor: ColorPallete.primary,
+                                        child: Icon(
+                                          Icons.camera_alt_outlined,
+                                          color: ColorPallete.theme,
+                                        ),
                                       ),
                                     ),
                                   )
@@ -84,16 +88,27 @@ class ProfileEditScreen extends GetView<VendorController> {
                           ),
                           MyFormField(
                             fieldName: "Company Name",
+                            initialValue:
+                                controller.vendorDetails.value.companyName,
                             type: InputType.TEXT,
                             keyboard: TextInputType.text,
-                            onChanged: (value) {},
+                            onChanged: (value) {
+                              controller.vendorDetails.value.companyName =
+                                  value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           //ADDRESS
                           MyFormField(
                             fieldName: "Address",
                             type: InputType.TEXT,
                             keyboard: TextInputType.text,
-                            onChanged: (value) {},
+                            initialValue:
+                                controller.vendorDetails.value.address,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.address = value;
+                              controller.vendorDetails.refresh();
+                            },
                             maxLines: 3,
                           ),
                           Row(
@@ -104,7 +119,10 @@ class ProfileEditScreen extends GetView<VendorController> {
                                   type: InputType.DROP_DOWN,
                                   keyboard: TextInputType.number,
                                   dropDownOptions: ["City 1", "City 2"],
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    controller.vendorDetails.value.city = value;
+                                    controller.vendorDetails.refresh();
+                                  },
                                 ),
                               ),
                               Expanded(
@@ -113,7 +131,11 @@ class ProfileEditScreen extends GetView<VendorController> {
                                   type: InputType.DROP_DOWN,
                                   keyboard: TextInputType.number,
                                   dropDownOptions: ["State 1", "State 2"],
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    controller.vendorDetails.value.state =
+                                        value;
+                                    controller.vendorDetails.refresh();
+                                  },
                                 ),
                               ),
                             ],
@@ -123,20 +145,28 @@ class ProfileEditScreen extends GetView<VendorController> {
                             type: InputType.DROP_DOWN,
                             keyboard: TextInputType.number,
                             dropDownOptions: ["Country 1", "Country 2"],
-                            onChanged: (value) {},
+                            onChanged: (value) {
+                              controller.vendorDetails.value.country = value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           //GST
                           MyFormField(
                             fieldName: "GST Number",
                             type: InputType.TEXT,
                             keyboard: TextInputType.number,
-                            onChanged: (value) {},
+                            initialValue:
+                                controller.vendorDetails.value.gstNumber,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.gstNumber = value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           Obx(
                             () => ImageInput(
                               callback: (img) {
-                                controller.gstImg.value = img;
-                                controller.refresh();
+                                controller.vendorDetails.value.gstCopy = img;
+                                controller.vendorDetails.refresh();
                               },
                               child: Padding(
                                 padding: EdgeInsets.all(5 * fem),
@@ -175,68 +205,130 @@ class ProfileEditScreen extends GetView<VendorController> {
                             fieldName: "Contact Number",
                             type: InputType.TEXT,
                             keyboard: TextInputType.phone,
-                            onChanged: (value) {},
+                            initialValue:
+                                controller.vendorDetails.value.contactNumber,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.contactNumber =
+                                  value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           MyFormField(
                             fieldName: "Alternate Contact Number",
                             type: InputType.TEXT,
                             keyboard: TextInputType.phone,
-                            onChanged: (value) {},
+                            initialValue: controller
+                                .vendorDetails.value.alternateContactNumber,
+                            onChanged: (value) {
+                              controller.vendorDetails.value
+                                  .alternateContactNumber = value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           MyFormField(
                             fieldName: "Nature Of Business",
                             type: InputType.TEXT,
                             keyboard: TextInputType.text,
-                            onChanged: (value) {},
+                            initialValue:
+                                controller.vendorDetails.value.natureOfBusiness,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.natureOfBusiness =
+                                  value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           MyFormField(
                             fieldName: "Leagal Status Of Firm",
                             type: InputType.TEXT,
                             keyboard: TextInputType.number,
-                            onChanged: (value) {},
+                            initialValue:
+                                controller.vendorDetails.value.legalStateOfFirm,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.legalStateOfFirm =
+                                  value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           MyFormField(
                             fieldName: "Director's Name",
                             type: InputType.TEXT,
                             keyboard: TextInputType.number,
-                            onChanged: (value) {},
+                            initialValue:
+                                controller.vendorDetails.value.directorsName,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.directorsName =
+                                  value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           MyFormField(
                             fieldName: "Email Id",
                             type: InputType.TEXT,
                             keyboard: TextInputType.number,
-                            onChanged: (value) {},
+                            initialValue: controller.vendorDetails.value.email,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.email = value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           //BANK
                           MyFormField(
                             fieldName: "Bank Name",
                             type: InputType.TEXT,
                             keyboard: TextInputType.text,
-                            onChanged: (value) {},
+                            initialValue:
+                                controller.vendorDetails.value.bankName,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.bankName = value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           MyFormField(
                             fieldName: "Bank Account Number",
                             type: InputType.TEXT,
                             keyboard: TextInputType.number,
-                            onChanged: (value) {},
+                            initialValue: controller
+                                .vendorDetails.value.bankAccountNumber,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.bankAccountNumber =
+                                  value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           MyFormField(
                             fieldName: "IFSC Code",
                             type: InputType.TEXT,
                             keyboard: TextInputType.text,
-                            onChanged: (value) {},
+                            initialValue:
+                                controller.vendorDetails.value.ifscCode,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.ifscCode = value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           MyFormField(
                             fieldName: "Beneficiary Name",
                             type: InputType.TEXT,
                             keyboard: TextInputType.text,
-                            onChanged: (value) {},
+                            initialValue:
+                                controller.vendorDetails.value.beneficiaryName,
+                            onChanged: (value) {
+                              controller.vendorDetails.value.beneficiaryName =
+                                  value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                           MyFormField(
                             fieldName: "Year Of Establishment",
                             type: InputType.TEXT,
                             keyboard: TextInputType.number,
-                            onChanged: (value) {},
+                            initialValue: controller
+                                .vendorDetails.value.yearOfEstablishment,
+                            onChanged: (value) {
+                              controller.vendorDetails.value
+                                  .yearOfEstablishment = value;
+                              controller.vendorDetails.refresh();
+                            },
                           ),
                         ],
                       ),
@@ -254,7 +346,8 @@ class ProfileEditScreen extends GetView<VendorController> {
                 ]),
                 child: InkWell(
                   onTap: () {
-                    Get.back();
+                    // Get.back();
+                    controller.updateVendorDetails();
                   },
                   child: RoundedContainer(
                     radius: 0,

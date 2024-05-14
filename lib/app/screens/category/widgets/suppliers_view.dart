@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:south_canara/app/components/ui/form_fields.dart';
 import 'package:south_canara/app/screens/category/widgets/enquiry_alert.dart';
 
 import '../../../../common/color_pallete.dart';
@@ -26,29 +27,31 @@ class SuppliersView extends GetView<CategoryController> {
               padding: EdgeInsets.symmetric(horizontal: 10.0 * fem),
               child: MyListView(
                 children: [
+                  TextView(
+                    text:
+                        "Hello, ${Get.find<AuthService>().user.value.name!.split(" ").first}",
+                    fontSize: 14,
+                    color: ColorPallete.secondary,
+                  ),
                   Row(
                     children: [
-                      const TextView(
-                        text: "Hello, Vishal",
-                        fontSize: 14,
-                        color: ColorPallete.secondary,
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Icon(
+                          Icons.location_searching,
+                          color: ColorPallete.secondary,
+                        ),
                       ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Icon(
-                              Icons.location_searching,
-                              color: ColorPallete.secondary,
-                            ),
-                          ),
-                          TextView(
-                            text: controller.selectedLocation.value,
-                            fontSize: 14,
-                            color: ColorPallete.secondary,
-                          )
-                        ],
+                      Expanded(
+                        child: MyFormField(
+                          fieldName: "Location",
+                          type: InputType.DROP_DOWN,
+                          keyboard: TextInputType.none,
+                          dropDownOptions: controller.locations
+                              .map((element) => element.stateName)
+                              .toList(),
+                          onChanged: (value) {},
+                        ),
                       )
                     ],
                   ),

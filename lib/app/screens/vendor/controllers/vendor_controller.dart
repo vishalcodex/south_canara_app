@@ -1,4 +1,9 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
+import 'package:south_canara/app/models/vendor.dart';
+import 'package:south_canara/app/repositories/vendor_repository.dart';
+import 'package:south_canara/common/color_pallete.dart';
 
 import '../../../routes/app_routes.dart';
 
@@ -104,4 +109,39 @@ class VendorController extends GetxController {
   }
 
   RxString gstImg = "".obs;
+
+  //Profile
+  Rx<Vendor> vendorDetails = Vendor().obs;
+
+  fetchVendorDetails() async {
+    await _vendorRepository.fetchVendorDetails().then((value) {
+      vendorDetails = Vendor().obs;
+      vendorDetails.value = value.data;
+      vendorDetails.refresh();
+    });
+  }
+
+  updateVendorDetails() async {
+    await _vendorRepository
+        .saveVendorDetails(vendorDetails.value)
+        .then((value) {
+      if (value.status == Status.COMPLETED) {
+        Get.showSnackbar(
+          const GetSnackBar(
+            duration: Duration(seconds: 3),
+            backgroundColor: ColorPallete.primary,
+            message: "Details were Updated Successfully !",
+          ),
+        );
+      } else {
+        Get.showSnackbar(
+          const GetSnackBar(
+            duration: Duration(seconds: 3),
+            backgroundColor: ColorPallete.red,
+            message: "Error Updating Details !",
+          ),
+        );
+      }
+    });
+  }
 }

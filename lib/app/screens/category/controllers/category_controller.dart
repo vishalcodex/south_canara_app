@@ -1,5 +1,10 @@
 import 'package:get/get.dart';
 
+import '../../../models/api_response.dart';
+import '../../../models/category_model.dart';
+import '../../../models/location.dart';
+import '../../../repositories/category_repository.dart';
+
 class CategoryController extends GetxController {
   CategoryController() {
     // _onBoardRepository = OnBoardRepository();
@@ -21,12 +26,15 @@ class CategoryController extends GetxController {
     });
   }
 
-  RxMap<String, dynamic> selectedCategory = <String, dynamic>{}.obs;
-  RxList<Map<String, dynamic>> categories = <Map<String, dynamic>>[].obs;
-  RxMap<String, dynamic> selectedSubCategory = <String, dynamic>{}.obs;
-  RxList<Map<String, dynamic>> subCategories = <Map<String, dynamic>>[].obs;
-  RxString selectedLocation = "Maharshtra".obs;
-  RxList<Map<String, dynamic>> locations = <Map<String, dynamic>>[].obs;
+  //Category
+  Rx<Category> selectedCategory = Category().obs;
+  RxList<Category> categories = <Category>[].obs;
+  //Sub Category
+  Rx<Subcategory> selectedSubCategory = Subcategory().obs;
+  RxList<Subcategory> subCategories = <Subcategory>[].obs;
+  //Locations
+  Rx<Location> selectedLocation = Location().obs;
+  RxList<Location> locations = <Location>[].obs;
   RxList<Map<String, dynamic>> suppliers = <Map<String, dynamic>>[].obs;
 
   fetchCategories() async {
@@ -76,15 +84,9 @@ class CategoryController extends GetxController {
   }
 
   fetchLocations() async {
-    Future.delayed(const Duration(seconds: 2), () {
-      locations.value = [
-        {"name": "Maharashtra"},
-        {"name": "Tamil Nadu"},
-        {"name": "Karnataka"},
-        {"name": "Punjab"},
-        {"name": "Madhya Pradesh"},
-      ];
-      selectedLocation.value = locations.first["name"];
+    _categoryRepository.fetchLocations().then((value) {
+      locations.value = value.data;
+      selectedLocation.value = locations.first;
       locations.refresh();
     });
   }
