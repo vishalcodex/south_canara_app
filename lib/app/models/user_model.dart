@@ -3,13 +3,20 @@ import 'parents/model.dart';
 class User extends Model {
   String? name;
   String? initials;
+  String? membershipId;
   String? phoneNumber;
   String? email;
   String? image;
-  String? location;
+  String? balance;
   String? token;
 
-  User({this.name, this.email, this.image, this.location, this.phoneNumber}) {
+  User(
+      {this.name,
+      this.email,
+      this.membershipId,
+      this.image,
+      this.balance,
+      this.phoneNumber}) {
     initials = name?.splitMapJoin(" ",
         onMatch: (p0) => "",
         onNonMatch: (p0) => p0.substring(0, 1).toUpperCase());
@@ -33,8 +40,9 @@ class User extends Model {
       image = stringFromJson(json, "image");
     }
     email = stringFromJson(json, "email");
-    phoneNumber = stringFromJson(json, "phone_number");
-    location = stringFromJson(json, "location");
+    phoneNumber = stringFromJson(json, "phone");
+    balance = stringFromJson(json, "balance");
+    membershipId = stringFromJson(json, "customer_id");
 
     if (json.containsKey("token")) {
       token = stringFromJson(json, "token");
@@ -52,7 +60,8 @@ class User extends Model {
     data["image"] = image;
     data["email"] = email;
     data["mobile"] = phoneNumber;
-    data["location"] = location;
+    data["customer_id"] = membershipId;
+    data["balance"] = balance;
 
     return data;
   }

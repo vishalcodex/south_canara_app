@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../common/color_pallete.dart';
-import '../../../../components/ui/form_fields.dart';
 import '../../../../components/ui/image_input.dart';
 import '../../../../components/ui/my_list_view.dart';
 import '../../../../components/ui/rounded_container.dart';
 import '../../../../components/ui/text_view.dart';
+import '../../../signup/widgets/form_fields.dart';
 import '../../controllers/vendor_controller.dart';
 
 // ignore: must_be_immutable

@@ -6,9 +6,8 @@ import '../../../models/location.dart';
 import '../../../repositories/category_repository.dart';
 
 class CategoryController extends GetxController {
-  late CategoryRepository _categoryRepository;
   CategoryController() {
-    _categoryRepository = CategoryRepository();
+    // _onBoardRepository = OnBoardRepository();
   }
 
   @override
@@ -17,13 +16,13 @@ class CategoryController extends GetxController {
     fetchCategories();
     fetchLocations();
     selectedCategory.listen((p0) {
-      // if (p0["sub"] != null) {
-      //   subCategories.value = p0["sub"];
-      //   selectedSubCategory.value = (p0["sub"] as List).first;
-      //   subCategories.refresh();
-      // } else {
-      //   subCategories.value = [];
-      // }
+      if (p0["sub"] != null) {
+        subCategories.value = p0["sub"];
+        selectedSubCategory.value = (p0["sub"] as List).first;
+        subCategories.refresh();
+      } else {
+        subCategories.value = [];
+      }
     });
   }
 
@@ -40,13 +39,47 @@ class CategoryController extends GetxController {
 
   fetchCategories() async {
     Future.delayed(const Duration(seconds: 2), () {
-      _categoryRepository.fetchCategories().then((value) {
-        if (value.status == Status.COMPLETED) {
-          categories.value = value.data;
-          onCategorySelected(categories.first);
-          categories.refresh();
-        }
-      });
+      categories.value = [
+        {
+          "name": "Cashew",
+          "sub": [
+            {"name": "Grade 1"},
+            {"name": "Grade 2"},
+            {"name": "Grade 3"},
+            {"name": "Grade 4"},
+          ]
+        },
+        {"name": "Badam"},
+        {
+          "name": "Anjeer",
+          "sub": [
+            {"name": "Grade 1"},
+            {"name": "Grade 2"},
+            {"name": "Grade 3"},
+            {"name": "Grade 4"},
+          ]
+        },
+        {
+          "name": "Raisins",
+        },
+        {"name": "Walnuts"},
+        {
+          "name": "Dates",
+          "sub": [
+            {"name": "Grade 1"},
+            {"name": "Grade 2"},
+            {"name": "Grade 3"},
+            {"name": "Grade 4"},
+          ]
+        },
+        {"name": "Pista"},
+        {"name": "Dry Coc"},
+        {"name": "Prunes"},
+        {"name": "Betel Nut"},
+        {"name": "Hezel Nut"},
+      ];
+      selectedCategory.value = categories.first;
+      categories.refresh();
     });
   }
 
@@ -61,24 +94,5 @@ class CategoryController extends GetxController {
   RxBool showSuppliers = false.obs;
   void searchSuppliers() {
     showSuppliers.value = true;
-  }
-
-  void onCategorySelected(Category category) {
-    selectedCategory.value = category;
-    selectedCategory.refresh();
-    _categoryRepository.fetchSubCategories(category).then((value) {
-      if (value.status == Status.COMPLETED) {
-        subCategories.value = value.data;
-        if (subCategories.isNotEmpty) {
-          selectedSubCategory.value = subCategories.first;
-        }
-        subCategories.refresh();
-      }
-    });
-  }
-
-  void onSubCategorySelected(Subcategory subcategory) {
-    selectedSubCategory.value = subcategory;
-    selectedSubCategory.refresh();
   }
 }

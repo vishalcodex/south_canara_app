@@ -36,8 +36,6 @@ dependencies:
   get_storage: 2.0.3
   # DIO
   dio: ^4.0.4
-  # CACHE NETWORK
-  cached_network_image: ^3.3.1
   # FONTS
   google_fonts: ^3.0.1
   intl: ^0.18.0
@@ -65,8 +63,6 @@ dependencies:
   # OTP
   firebase_core: ^2.24.2
   firebase_auth: ^4.1.0
-  # WEBVIEW
-  webview_flutter: ^4.5.0
   # ONE SIGNAL
   onesignal_flutter: ^5.0.4
   

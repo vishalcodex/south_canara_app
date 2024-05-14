@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../common/color_pallete.dart';
 import '../../../../components/ui/my_list_view.dart';
@@ -86,8 +85,7 @@ class EnquiresScreen extends GetView<VendorController> {
                               : Padding(
                                   padding: EdgeInsets.all(10 * fem),
                                   child: MyListView(
-                                    children:
-                                        controller.enquires.map((enquiry) {
+                                    children: controller.enquires.map((e) {
                                       return Padding(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 5.0 * fem),
@@ -112,27 +110,20 @@ class EnquiresScreen extends GetView<VendorController> {
                                                   children: [
                                                     EntryWidget(
                                                       title: "Customer Name",
-                                                      value: enquiry.userId
-                                                          .toString(),
+                                                      value: e["cust_name"],
                                                     ),
                                                     EntryWidget(
                                                       title:
                                                           "Enquiry against product",
-                                                      value: enquiry.enquiry,
+                                                      value: e["product_name"],
                                                     ),
                                                     EntryWidget(
-                                                      title: "Phone Number",
-                                                      value:
-                                                          enquiry.phoneNumber,
+                                                      title: "Location",
+                                                      value: e["location"],
                                                     ),
                                                     EntryWidget(
                                                       title: "Date",
-                                                      value: DateFormat(
-                                                              "dd MMM yyyy hh:mm a")
-                                                          .format(DateFormat(
-                                                                  "yyyy-MM-ddTHH:mm:ss")
-                                                              .parse(enquiry
-                                                                  .createdAt!)),
+                                                      value: e["date"],
                                                     ),
                                                   ],
                                                 ),

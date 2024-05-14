@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:south_canara/app/components/ui/form_fields.dart';
 import 'package:south_canara/app/screens/category/widgets/enquiry_alert.dart';
-import 'package:south_canara/app/services/auth_service.dart';
 
 import '../../../../common/color_pallete.dart';
 import '../../../components/ui/my_list_view.dart';
@@ -68,15 +67,16 @@ class SuppliersView extends GetView<CategoryController> {
                       child: MyListView(
                           isRow: true,
                           scroll: true,
-                          children: controller.categories.map((category) {
-                            bool isSelected = category.name ==
-                                controller.selectedCategory.value.name;
+                          children: controller.categories.map((element) {
+                            bool isSelected = element["name"] ==
+                                controller.selectedCategory["name"];
                             return Padding(
                               padding:
                                   EdgeInsets.symmetric(horizontal: 2.5 * fem),
                               child: InkWell(
                                 onTap: () {
-                                  controller.onCategorySelected(category);
+                                  controller.selectedCategory.value = element;
+                                  controller.selectedCategory.refresh();
                                 },
                                 child: RoundedContainer(
                                   radius: 10,
@@ -90,7 +90,7 @@ class SuppliersView extends GetView<CategoryController> {
                                     ),
                                     child: Center(
                                       child: TextView(
-                                        text: category.name ?? "",
+                                        text: element["name"],
                                         fontSize: 14,
                                         color: isSelected
                                             ? ColorPallete.theme
@@ -105,64 +105,53 @@ class SuppliersView extends GetView<CategoryController> {
                     ),
                   ),
                   //Sub Categories
-
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5.0 * fem),
-                    child: RoundedContainer(
-                      radius: 0,
-                      height: 40,
-                      child: controller.subCategories.isEmpty
-                          ? RoundedContainer(
-                              radius: 0,
-                              child: Center(
-                                child: TextView(
-                                  text: "No sub sategories present",
-                                  color: ColorPallete.grey.withOpacity(0.8),
-                                  fontSize: 14,
-                                ),
-                              ),
-                            )
-                          : MyListView(
-                              isRow: true,
-                              scroll: true,
-                              children:
-                                  controller.subCategories.map((subcategory) {
-                                bool isSelected = subcategory.name ==
-                                    controller.selectedSubCategory.value.name;
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 2.5 * fem),
-                                  child: InkWell(
-                                    onTap: () {
-                                      controller
-                                          .onSubCategorySelected(subcategory);
-                                    },
-                                    child: RoundedContainer(
-                                      radius: 10,
-                                      borderColor: ColorPallete.primary,
-                                      color: isSelected
-                                          ? ColorPallete.primary
-                                          : ColorPallete.theme,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 15 * fem,
-                                        ),
-                                        child: Center(
-                                          child: TextView(
-                                            text: subcategory.name ?? "",
-                                            fontSize: 14,
-                                            color: isSelected
-                                                ? ColorPallete.theme
-                                                : ColorPallete.primary,
-                                          ),
+                  if (controller.subCategories.isNotEmpty)
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5.0 * fem),
+                      child: RoundedContainer(
+                        radius: 0,
+                        height: 40,
+                        child: MyListView(
+                            isRow: true,
+                            scroll: true,
+                            children: controller.subCategories.map((element) {
+                              bool isSelected = element["name"] ==
+                                  controller.selectedSubCategory["name"];
+                              return Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 2.5 * fem),
+                                child: InkWell(
+                                  onTap: () {
+                                    controller.selectedSubCategory.value =
+                                        element;
+                                    controller.selectedSubCategory.refresh();
+                                  },
+                                  child: RoundedContainer(
+                                    radius: 10,
+                                    borderColor: ColorPallete.primary,
+                                    color: isSelected
+                                        ? ColorPallete.primary
+                                        : ColorPallete.theme,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 15 * fem,
+                                      ),
+                                      child: Center(
+                                        child: TextView(
+                                          text: element["name"],
+                                          fontSize: 14,
+                                          color: isSelected
+                                              ? ColorPallete.theme
+                                              : ColorPallete.primary,
                                         ),
                                       ),
                                     ),
                                   ),
-                                );
-                              }).toList()),
-                    ),
-                  )
+                                ),
+                              );
+                            }).toList()),
+                      ),
+                    )
                 ],
               ),
             ),

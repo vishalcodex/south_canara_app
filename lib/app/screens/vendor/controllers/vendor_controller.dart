@@ -5,14 +5,11 @@ import 'package:south_canara/app/models/vendor.dart';
 import 'package:south_canara/app/repositories/vendor_repository.dart';
 import 'package:south_canara/common/color_pallete.dart';
 
-import '../../../models/api_response.dart';
-import '../../../models/enquiry_model.dart';
 import '../../../routes/app_routes.dart';
 
 class VendorController extends GetxController {
-  late VendorRepository _vendorRepository;
   VendorController() {
-    _vendorRepository = VendorRepository();
+    // _onBoardRepository = OnBoardRepository();
   }
 
   @override
@@ -50,16 +47,32 @@ class VendorController extends GetxController {
 
   RxBool isLoading = false.obs;
   // ENQUIRES
-  RxList<Enquiry> enquires = <Enquiry>[].obs;
+  RxList<Map<String, String>> enquires = <Map<String, String>>[].obs;
   fetchEnquires() {
     isLoading.value = true;
-    _vendorRepository.fetchEnquires().then((value) {
+    Future.delayed(const Duration(seconds: 2), () {
       isLoading.value = false;
-      if (value.status == Status.COMPLETED) {
-        enquires.value = value.data;
-      } else {
-        enquires.value = [];
-      }
+      enquires.value = [
+        {
+          "cust_name": "Omkar Mhatre",
+          "product_name": "ABC",
+          "location": "Panvel",
+          "date": "2024/03/21 12:34 PM",
+        },
+        {
+          "cust_name": "Vishal Shinde",
+          "product_name": "XYZ",
+          "location": "Vasai",
+          "date": "2024/03/18 12:34 PM",
+        },
+        {
+          "cust_name": "Saurav Patil",
+          "product_name": "PQR",
+          "location": "Virar",
+          "date": "2024/03/09 12:34 PM",
+        },
+      ];
+      enquires.refresh();
     });
   }
 

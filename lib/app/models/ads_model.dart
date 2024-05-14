@@ -1,38 +1,25 @@
-import '../providers/api_endpoints.dart';
-
 class Ads {
   int? id;
-  String? sliderImage;
-  String? sliderName;
-  String? sliderDescription;
-  String? createdAt;
-  String? updatedAt;
+  String? image;
+  String? title;
+  String? description;
 
-  Ads(
-      {this.id,
-      this.sliderImage,
-      this.sliderName,
-      this.sliderDescription,
-      this.createdAt,
-      this.updatedAt});
+  Ads({this.id, this.image, this.title, this.description});
 
   Ads.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    sliderImage = Urls.getImageUrl(json['slider_image']);
-    sliderName = json['slider_name'];
-    sliderDescription = json['slider_description'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    // image = Urls.baseUrl + json['image'];
+    image = json['image'];
+    title = json['title'];
+    description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['slider_image'] = this.sliderImage;
-    data['slider_name'] = this.sliderName;
-    data['slider_description'] = this.sliderDescription;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['image'] = this.image;
+    data['title'] = this.title;
+    data['description'] = this.description;
     return data;
   }
 }

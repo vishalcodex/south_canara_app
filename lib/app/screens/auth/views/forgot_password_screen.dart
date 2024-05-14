@@ -1,267 +1,223 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import '../../../components/ui/my_list_view.dart';
+// import '../../../components/ui/text_field.dart';
+// import '../../../components/ui/text_view.dart';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
 
-import '../../../../common/color_pallete.dart';
-import '../../../components/ui/my_list_view.dart';
-import '../../../components/ui/rounded_container.dart';
-import '../../../components/ui/text_view.dart';
-import '../controller/auth_controller.dart';
+// import '../../../../common/color_pallete.dart';
+// import '../../../components/ui/rounded_container.dart';
+// import '../controller/auth_controller.dart';
 
-import '../../../../../../../common/transalations/translation_keys.dart'
-    as translations;
+// class ForgotPasswordScreen extends GetView<AuthController> {
+//   const ForgotPasswordScreen({super.key});
 
-class ForgotPasswordScreen extends GetView<AuthController> {
-  const ForgotPasswordScreen({super.key});
+//   @override
+//   Widget build(BuildContext context) {
+//     double baseWidth = 393;
+//     double fem = MediaQuery.of(context).size.width / baseWidth;
+//     // double ffem = fem * 0.97;
+//     return Scaffold(
+//       backgroundColor: ColorPallete.theme,
+//       body: SafeArea(
+//         child: Scaffold(
+//           resizeToAvoidBottomInset: true,
+//           backgroundColor: ColorPallete.theme,
+//           appBar: AppBar(
+//             backgroundColor: ColorPallete.theme,
+//             leading: Padding(
+//               padding: EdgeInsets.only(left: 10.0 * fem),
+//               child: InkWell(
+//                 onTap: () {
+//                   Get.back();
+//                   controller.errorMessage.value = "";
+//                 },
+//                 child: Padding(
+//                   padding: EdgeInsets.symmetric(horizontal: 5.0 * fem),
+//                   child: Image.asset(
+//                     "assets/ui/back.png",
+//                     width: 10 * fem,
+//                     color: ColorPallete.primary,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             elevation: 0,
+//           ),
+//           body: WillPopScope(
+//             onWillPop: () {
+//               if (controller.viaPassword.value) {
+//                 controller.viaPassword.value = false;
+//                 controller.viaPassword.refresh();
+//                 return Future.value(false);
+//               }
+//               controller.errorMessage.value = "";
+//               return Future.value(true);
+//             },
+//             child: RoundedContainer(
+//               radius: 0,
+//               height: MediaQuery.of(context).size.height * 0.85,
+//               color: ColorPallete.theme,
+//               child: Padding(
+//                 padding: EdgeInsets.symmetric(horizontal: 20.0 * fem),
+//                 child: Column(
+//                   children: [
+//                     Expanded(
+//                       child: MyListView(
+//                         // mainAxisSize: MainAxisSize.max,
+//                         // mainAxisAlignment: MainAxisAlignment.start,
+//                         // crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           SizedBox(
+//                             height: 20 * fem,
+//                           ),
+//                           SizedBox(
+//                             height: 10 * fem,
+//                           ),
+//                           const TextView(
+//                             text: "Forgot Password",
+//                             color: ColorPallete.secondary,
+//                             fontSize: 32,
+//                             weight: FontWeight.bold,
+//                           ),
+//                           SizedBox(
+//                             height: 15 * fem,
+//                           ),
+//                           const TextView(
+//                             text:
+//                                 "Please enter your Client ID / E-mail ID & mobile number",
+//                             color: ColorPallete.grey,
+//                             fontSize: 14,
+//                           ),
+//                           SizedBox(
+//                             height: 25 * fem,
+//                           ),
+//                           const TextView(
+//                             text: "Email ID *",
+//                             color: ColorPallete.secondary,
+//                             fontSize: 16,
+//                           ),
+//                           SizedBox(
+//                             height: 10 * fem,
+//                           ),
+//                           RoundedContainer(
+//                             radius: 7.5,
+//                             // borderColor: ColorPallete.primary,
+//                             color: ColorPallete.grey.withOpacity(0.15),
+//                             child: Row(
+//                               children: [
+//                                 // Padding(
+//                                 //   padding: EdgeInsets.symmetric(
+//                                 //       horizontal: 10.0 * fem),
+//                                 //   child: const Icon(
+//                                 //     Icons.person_outline,
+//                                 //     color: ColorPallete.primary,
+//                                 //   ),
+//                                 // ),
+//                                 SizedBox(
+//                                   width: 15 * fem,
+//                                 ),
+//                                 Expanded(
+//                                   child: MyTextField(
+//                                     // initialValue: controller.creds["email"],
+//                                     hintText: "hello@gmail.com",
+//                                     fontSize: 16,
+//                                     keyboardType: TextInputType.emailAddress,
+//                                     onChanged: (value) {
+//                                       controller.creds["email"] = value;
+//                                       // controller.errorMessage.value = "";
+//                                       controller.checkEmail();
+//                                     },
+//                                   ),
+//                                 ),
+//                                 Padding(
+//                                   padding: EdgeInsets.symmetric(
+//                                       horizontal: 15.0 * fem),
+//                                   child: InkWell(
+//                                       // onTap: () {
+//                                       //   controller.showPassword.value =
+//                                       //       !controller.showPassword.value;
+//                                       // },
+//                                       child: Obx(
+//                                     () => Icon(
+//                                       Icons.check_circle,
+//                                       color: controller.validEmail.value
+//                                           ? ColorPallete.primary
+//                                           : ColorPallete.grey.withOpacity(0.5),
+//                                     ),
+//                                   )),
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+//                           SizedBox(
+//                             height: 25 * fem,
+//                           ),
 
-  @override
-  Widget build(BuildContext context) {
-    // double baseWidth = 360;
-    // double fem = MediaQuery.of(context).size.width / baseWidth;
-    return Scaffold(
-      backgroundColor: ColorPallete.primary,
-      body: SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-                color: Colors.white,
-                child: CustomPaint(
-                  painter: CurvePainter(),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: ColorPallete.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 10,
-                                  )
-                                ]),
-                            child: RoundedContainer(
-                              radius: 20,
-                              clip: Clip.antiAliasWithSaveLayer,
-                              color: ColorPallete.theme,
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: MyListView(
-                                  // mainAxisSize: MainAxisSize.min,
-                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Center(
-                                      child: TextView(
-                                        text: "Social Cardify",
-                                        fontSize: 22,
-                                        weight: FontWeight.w700,
-                                        color: ColorPallete.secondary,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 20.0,
-                                    ),
-                                    const Center(
-                                      child: TextView(
-                                        text: "Forgot Password",
-                                        fontSize: 18,
-                                        weight: FontWeight.w500,
-                                        color: ColorPallete.secondary,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 30.0,
-                                    ),
-                                    Obx(
-                                      () => MyListView(
-                                        // crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          TextFormField(
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            cursorColor: ColorPallete.secondary,
-                                            decoration:
-                                                InputDecoration().copyWith(
-                                              labelText: translations.email.tr,
-                                              labelStyle: const TextStyle(
-                                                  fontSize: 16,
-                                                  color:
-                                                      ColorPallete.secondary),
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color:
-                                                        ColorPallete.secondary),
-                                              ),
-                                              focusedBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color:
-                                                        ColorPallete.secondary),
-                                              ),
-                                            ),
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Please enter text';
-                                              }
-                                              if (value.length < 6) {
-                                                return 'Password should be at least 6 characters long';
-                                              }
-                                              return null;
-                                            },
-                                            onChanged: (value) {
-                                              controller.creds["email"] = value;
-                                            },
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          TextFormField(
-                                            keyboardType: TextInputType.phone,
-                                            cursorColor: ColorPallete.secondary,
-                                            decoration:
-                                                InputDecoration().copyWith(
-                                              labelText:
-                                                  translations.phoneNumber.tr,
-                                              labelStyle: const TextStyle(
-                                                  fontSize: 16,
-                                                  color:
-                                                      ColorPallete.secondary),
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color:
-                                                        ColorPallete.secondary),
-                                              ),
-                                              focusedBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color:
-                                                        ColorPallete.secondary),
-                                              ),
-                                            ),
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Please enter text';
-                                              }
-                                              if (value.length < 6) {
-                                                return 'Password should be at least 6 characters long';
-                                              }
-                                              return null;
-                                            },
-                                            onChanged: (value) {
-                                              controller.creds["number"] =
-                                                  value;
-                                            },
-                                          ),
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          controller.errorMessage.value == ""
-                                              ? SizedBox.shrink()
-                                              : TextView(
-                                                  text: controller
-                                                      .errorMessage.value,
-                                                  fontSize: 14,
-                                                  color: Colors.red,
-                                                ),
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Spacer(),
-                                              InkWell(
-                                                onTap: () {
-                                                  controller.forgotPassword();
-                                                },
-                                                // inkwell color
-                                                child: RoundedContainer(
-                                                  radius: 60,
-                                                  color: ColorPallete.primary,
-                                                  child: SizedBox(
-                                                    width: 56,
-                                                    height: 56,
-                                                    child: controller
-                                                            .isLoading.value
-                                                        ? const Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    10.0),
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              valueColor:
-                                                                  AlwaysStoppedAnimation<
-                                                                          Color>(
-                                                                      ColorPallete
-                                                                          .theme),
-                                                              strokeWidth: 5.0,
-                                                            ),
-                                                          )
-                                                        : const Icon(
-                                                            // Add this
-                                                            Icons.arrow_forward,
-                                                            // Add this
-                                                            color: Colors.white,
-
-                                                            size: 30,
-                                                          ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CurvePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint();
-    paint.color = ColorPallete.primary;
-    paint.style = PaintingStyle.fill; // Change this to fill
-
-    var path = Path();
-
-    path.moveTo(0, size.height * 0.10);
-    path.quadraticBezierTo(
-        size.width / 2, size.height / 2, size.width, size.height * 0.50);
-    path.lineTo(size.width, 0);
-    path.lineTo(0, 0);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
-  }
-}
+//                           Obx(
+//                             () => controller.errorMessage.value != ""
+//                                 ? TextView(
+//                                     text: controller.errorMessage.value,
+//                                     color: ColorPallete.red,
+//                                     fontSize: 14,
+//                                     weight: FontWeight.bold,
+//                                   )
+//                                 : SizedBox.shrink(),
+//                           )
+//                           // if (controller.errorMessage.value != "")
+//                           //   SizedBox(
+//                           //     height: 25 * fem,
+//                           //   ),
+//                         ],
+//                       ),
+//                     ),
+//                     Obx(
+//                       () => InkWell(
+//                         onTap: () {
+//                           if (controller.validEmail.value
+//                               // &&  controller.validPhone.value
+//                               ) {
+//                             if (!controller.isLoading.value)
+//                               controller.forgotPasswordSent();
+//                           }
+//                         },
+//                         child: RoundedContainer(
+//                           radius: 10,
+//                           height: 55,
+//                           color: controller.validEmail.value
+//                               // &&  controller.validPhone.value
+//                               ? ColorPallete.primary
+//                               : ColorPallete.primary.withOpacity(0.2),
+//                           child: controller.isLoading.value
+//                               ? const RoundedContainer(
+//                                   radius: 0,
+//                                   height: 50,
+//                                   width: 50,
+//                                   child: Center(
+//                                     child: CircularProgressIndicator(
+//                                       color: ColorPallete.theme,
+//                                     ),
+//                                   ),
+//                                 )
+//                               : const Center(
+//                                   child: TextView(
+//                                     text: "Confirm",
+//                                     color: ColorPallete.theme,
+//                                     fontSize: 22,
+//                                   ),
+//                                 ),
+//                         ),
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 10 * fem,
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

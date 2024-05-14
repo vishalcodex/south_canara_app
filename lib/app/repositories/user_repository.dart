@@ -37,6 +37,18 @@ class UserRepository {
   //   });
   // }
 
+  // Future<ApiResponse> setVpin(String vpin) async {
+  //   return await apiProvider
+  //       .makeAPICall("POST", "api/set-vpin", {"vpin": vpin}).then((value) {
+  //     if (value.status == Status.COMPLETED) {
+  //       // User user = User.fromJson(value.data["user"]);
+  //       // user.token = value.data["token"];
+  //       // value.data = user;
+  //     }
+  //     return value;
+  //   });
+  // }
+
   // Future<ApiResponse> setPassword(String password) async {
   //   return await apiProvider.makeAPICall(
   //       "POST", "api/set-password", {"password": password}).then((value) {
@@ -76,7 +88,8 @@ class UserRepository {
   // }
 
   Future<ApiResponse> fetchUserDetails() async {
-    return await apiProvider.makeAPICall("GET", "profile", {}).then((value) {
+    return await apiProvider
+        .makeAPICall("GET", "users-details", {}).then((value) {
       if (value.status == Status.COMPLETED) {
         User user = User.fromJson(value.data["data"]);
         value.data = user;

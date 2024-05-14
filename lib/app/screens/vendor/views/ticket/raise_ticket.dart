@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:south_canara/app/screens/signup/widgets/form_fields.dart';
 import '../../../../../common/color_pallete.dart';
-import '../../../../components/ui/form_fields.dart';
 import '../../../../components/ui/my_list_view.dart';
 import '../../../../components/ui/rounded_container.dart';
 import '../../../../components/ui/text_view.dart';

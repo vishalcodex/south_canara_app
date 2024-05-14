@@ -5,7 +5,7 @@ import '../app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 // import 'package:aryo_app/app/providers/firebase_provider.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 // import 'package:onesignal_flutter/onesignal_flutter.dart';
 // import '../app/services/settings_service.dart';
 // import 'app/providers/api_provider.dart';
