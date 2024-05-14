@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../models/api_response.dart';
 import '../models/category_model.dart';
+import '../models/location.dart';
 import '../providers/api_provider.dart';
 
 class CategoryRepository {
@@ -34,6 +35,19 @@ class CategoryRepository {
             .toList();
       } else {
         value.data = [];
+      }
+      return value;
+    });
+  }
+
+  Future<ApiResponse> fetchLocations() async {
+    return await apiProvider
+        .makeAPICall("GET", "location", {}).then((value) async {
+      if (value.status == Status.COMPLETED) {
+        List<Location> locations = (value.data["locations"] as List).map((e) {
+          return Location.fromJson(e);
+        }).toList();
+        value.data = locations;
       }
       return value;
     });
