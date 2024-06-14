@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../models/user_model.dart';
 
@@ -63,6 +64,13 @@ class AuthService extends GetxService {
   }
 
   Future saveUser(User value) async {
+    OneSignal.User.addTagWithKey("isUser", "Yes");
+    OneSignal.User.addAlias("user_id", value.id);
+    // await OneSignal.User.getExternalId().then((id) {
+    //   log("One Signal External Id: $id");
+    OneSignal.login(value.id);
+    // });
+    // await OneSignal.User.getExternalId();
     await _box.write("token", value.token);
     user.value = value;
     token = value.token;

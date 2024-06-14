@@ -1,7 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:south_canara/app/models/ads_model.dart';
-import 'package:south_canara/app/screens/category/widgets/category_view.dart';
-
 import '../../../../common/color_pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +7,9 @@ import 'package:get/get.dart';
 import '../../../components/ui/my_list_view.dart';
 import '../../../components/ui/rounded_container.dart';
 import '../../../components/ui/text_view.dart';
+import '../../../models/slide_model.dart';
 import '../../../routes/app_routes.dart';
+import '../../category/widgets/category_view.dart';
 import '../controllers/home_controller.dart';
 
 // ignore: must_be_immutable
@@ -90,212 +90,133 @@ class HomeView extends GetView<HomeController> {
   }
 
   _getSliders(HomeController controller, double fem) {
-    return MyListView(
-      children: [
-        // TextView(
-        //   text: translations.impUpdates.tr,
-        //   color: ColorPallete.secondary,
-        //   fontSize: 14,
-        //   weight: FontWeight.bold,
-        // ),
-        // SizedBox(
-        //   height: 10 * fem,
-        // ),
-        controller.ads.isEmpty
-            ? InkWell(
-                onTap: () {
-                  Get.toNamed(
-                    Routes.ADVERTISEMENT,
-                    arguments: Ads(
-                        title: "Slider Title",
-                        description: "Slider Description"),
-                  );
-                },
-                child: Shimmer.fromColors(
-                  baseColor: Colors.grey.withOpacity(0.5),
-                  highlightColor: Colors.white,
-                  child: const RoundedContainer(
-                    radius: 10,
-                    height: 175,
-                    color: ColorPallete.grey,
-                  ),
-                ),
-              )
-            : RoundedContainer(
-                radius: 0,
-                height: 175,
-                child: PageView(
-                  onPageChanged: (value) {
-                    controller.selectedAd.value = value + 1;
-                    controller.selectedAd.refresh();
+    return Obx(
+      () => MyListView(
+        children: [
+          // TextView(
+          //   text: translations.impUpdates.tr,
+          //   color: ColorPallete.secondary,
+          //   fontSize: 14,
+          //   weight: FontWeight.bold,
+          // ),
+          // SizedBox(
+          //   height: 10 * fem,
+          // ),
+          controller.sliders.isEmpty
+              ? InkWell(
+                  onTap: () {
+                    Get.toNamed(
+                      Routes.ADVERTISEMENT,
+                      arguments: Slide(
+                          sliderName: "Slider Title",
+                          sliderDescription: "Slider Description"),
+                    );
                   },
-                  children: controller.ads
-                      .map((e) => InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.ADVERTISEMENT, arguments: e);
-                            },
-                            child: RoundedContainer(
-                              radius: 10,
-                              clip: Clip.antiAliasWithSaveLayer,
-                              child: Container(
-                                decoration: BoxDecoration(boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 0.5 * fem,
-                                      blurRadius: 5 * fem,
-                                      offset: Offset(0, 0 * fem),
-                                      color: ColorPallete.grey.withOpacity(0.1))
-                                ]),
-                                child: Image.network(
-                                  e.image!,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                ),
-              ),
-        SizedBox(
-          height: 5 * fem,
-        ),
-        controller.ads.isEmpty
-            ? Shimmer.fromColors(
-                baseColor: Colors.grey.withOpacity(0.5),
-                highlightColor: Colors.white,
-                child: RoundedContainer(
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey.withOpacity(0.5),
+                    highlightColor: Colors.white,
+                    child: const RoundedContainer(
+                      radius: 10,
+                      height: 175,
+                      color: ColorPallete.grey,
+                    ),
+                  ),
+                )
+              : RoundedContainer(
                   radius: 0,
-                  height: 7.5,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [1, 2, 3].map((element) {
-                      bool isSelected = element == 1;
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2.5 * fem),
+                  height: 175,
+                  child: PageView.builder(
+                    controller: controller.sliderPageController,
+                    onPageChanged: (value) {
+                      controller.selectedSlide.value =
+                          (value % controller.sliders.length);
+                      controller.selectedSlide.refresh();
+                    },
+                    itemBuilder: (context, index) {
+                      int pos = index % controller.sliders.length;
+                      Slide slide = controller.sliders.elementAt(pos);
+                      return InkWell(
+                        onTap: () {
+                          Get.toNamed(Routes.ADVERTISEMENT, arguments: slide);
+                        },
                         child: RoundedContainer(
-                          color: isSelected
-                              ? ColorPallete.grey
-                              : ColorPallete.grey.withOpacity(0.5),
-                          radius: 5,
-                          height: 10,
-                          width: isSelected ? 20 : 10,
+                          radius: 10,
+                          clip: Clip.antiAliasWithSaveLayer,
+                          child: Container(
+                            decoration: BoxDecoration(boxShadow: [
+                              BoxShadow(
+                                  spreadRadius: 0.5 * fem,
+                                  blurRadius: 5 * fem,
+                                  offset: Offset(0, 0 * fem),
+                                  color: ColorPallete.grey.withOpacity(0.1))
+                            ]),
+                            child: CachedNetworkImage(
+                              imageUrl: slide.sliderImage!,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
                         ),
                       );
-                    }).toList(),
+                    },
                   ),
                 ),
-              )
-            : RoundedContainer(
-                radius: 0,
-                height: 7.5,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: controller.ads.map((element) {
-                    bool isSelected = element.id == controller.selectedAd.value;
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 2.5 * fem),
-                      child: RoundedContainer(
-                        color: isSelected
-                            ? ColorPallete.primary
-                            : ColorPallete.grey.withOpacity(0.5),
-                        radius: 5,
-                        height: 10,
-                        width: isSelected ? 20 : 10,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-      ],
-    );
-  }
-
-  _aboutSocialCardify() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0.0),
-      child: MyListView(
-        children: [
-          TextView(
-            text: "Social Cardify Websites",
-            weight: FontWeight.bold,
-            fontSize: 16,
-            color: ColorPallete.secondary,
-          ),
           SizedBox(
-            height: 5,
+            height: 5 * fem,
           ),
-          TextView(
-            text:
-                "We provide a beautiful website builder in min Price and Flexible Web Development",
-            fontSize: 16,
-            color: ColorPallete.secondary,
-          ),
-        ],
-      ),
-    );
-  }
-
-  _howToUseApp() {
-    return MyListView(
-      children: [
-        Center(
-          child: TextView(
-            text: "How to use the App ?",
-            fontSize: 16,
-            weight: FontWeight.bold,
-            color: ColorPallete.secondary,
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              RoundedContainer(
-                radius: 5,
-                color: ColorPallete.grey.withOpacity(0.25),
-                height: 200,
-              ),
-              Center(
-                child: Icon(
-                  Icons.play_circle_filled_rounded,
-                  size: 50,
-                  color: ColorPallete.grey,
-                ),
-              )
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Center(
-            child: InkWell(
-              onTap: () {
-                Get.toNamed(Routes.CREATE_WEBSITE);
-              },
-              child: RoundedContainer(
-                radius: 10,
-                color: ColorPallete.primary,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+          controller.selectedSlide.value == -1
+              ? Shimmer.fromColors(
+                  baseColor: Colors.grey.withOpacity(0.5),
+                  highlightColor: Colors.white,
+                  child: RoundedContainer(
+                    radius: 0,
+                    height: 7.5,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [1, 2, 3].map((element) {
+                        bool isSelected = element == 1;
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 2.5 * fem),
+                          child: RoundedContainer(
+                            color: isSelected
+                                ? ColorPallete.grey
+                                : ColorPallete.grey.withOpacity(0.5),
+                            radius: 5,
+                            height: 10,
+                            width: isSelected ? 20 : 10,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                )
+              : SizedBox(
+                  height: 10,
                   child: Center(
-                    child: TextView(
-                      text: "Create Website",
-                      color: ColorPallete.theme,
-                      fontSize: 16,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: controller.sliders.length,
+                      itemBuilder: (context, index) {
+                        bool isSelected =
+                            index == controller.selectedSlide.value;
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 2.5 * fem),
+                          child: RoundedContainer(
+                            color: isSelected
+                                ? ColorPallete.primary
+                                : ColorPallete.grey.withOpacity(0.5),
+                            radius: 5,
+                            height: 10,
+                            width: isSelected ? 20 : 10,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        )
-      ],
+        ],
+      ),
     );
   }
 
@@ -314,192 +235,168 @@ class HomeView extends GetView<HomeController> {
           //   color: ColorPallete.secondary,
           //   weight: FontWeight.bold,
           // ),
-          controller.categories.isEmpty
+          controller.blogs.isEmpty
               ? Shimmer.fromColors(
                   baseColor: Colors.grey.withOpacity(0.5),
                   highlightColor: Colors.white,
-                  child: MyListView(
-                    children: [1].map((category) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10 * fem),
-                        child: RoundedContainer(
-                          height: 175,
-                          // color: ColorPallete.grey,
-                          radius: 0,
-                          child: Column(
-                            children: [
-                              // InkWell(
-                              //   onTap: () {
-                              //     Get.toNamed(Routes.BLOG, arguments: {
-                              //       "category":
-                              //           Category(catName: "Category Name")
-                              //     });
-                              //   },
-                              //   child: Row(
-                              //     children: [
-                              //       const RoundedContainer(
-                              //         radius: 5,
-                              //         color: ColorPallete.grey,
-                              //         width: 100,
-                              //         height: 10,
-                              //       ),
-                              //       const Spacer(),
-                              //       TextView(
-                              //         text: translations.readMore.tr,
-                              //         color: ColorPallete.grey,
-                              //         weight: FontWeight.bold,
-                              //         fontSize: 14,
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
-                              SizedBox(
-                                height: 7.5 * fem,
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: MyListView(
-                                        isRow: true,
-                                        scroll: true,
-                                        children: [1, 2, 3]
-                                            .map(
-                                              (blog) => Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 3 * fem),
-                                                child: RoundedContainer(
-                                                  radius: 10,
-                                                  clip: Clip.antiAlias,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2,
-                                                  color: ColorPallete.grey,
-                                                ),
-                                              ),
-                                            )
-                                            .toList(),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10 * fem),
+                    child: RoundedContainer(
+                      height: 175,
+                      // color: ColorPallete.grey,
+                      radius: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: MyListView(
+                              isRow: true,
+                              scroll: true,
+                              children: [1, 2, 3]
+                                  .map(
+                                    (blog) => Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10 * fem, vertical: 15),
+                                      child: Container(
+                                        decoration: BoxDecoration(boxShadow: [
+                                          BoxShadow(
+                                              color: ColorPallete.grey
+                                                  .withOpacity(0.25),
+                                              blurRadius: 15,
+                                              spreadRadius: 5)
+                                        ]),
+                                        child: RoundedContainer(
+                                          radius: 10,
+                                          clip: Clip.antiAlias,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2,
+                                          color: ColorPallete.grey,
+                                        ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              )
-                            ],
+                                  )
+                                  .toList(),
+                            ),
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        ],
+                      ),
+                    ),
                   ),
                 )
-              : MyListView(
-                  children: controller.categories.map((category) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10 * fem),
-                      child: RoundedContainer(
-                        height: 120,
-                        // color: ColorPallete.grey,
-                        radius: 0,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                TextView(
-                                  text: category.catName!,
-                                  color: ColorPallete.secondary,
-                                  fontSize: 14,
-                                  weight: FontWeight.bold,
-                                ),
-                                const Spacer(),
-                                InkWell(
-                                  onTap: () {
-                                    Get.toNamed(Routes.BLOG,
-                                        arguments: {"category": category});
-                                  },
-                                  child: const TextView(
-                                    text: "Read More",
-                                    color: ColorPallete.primary,
-                                    fontSize: 14,
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 7.5 * fem,
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: MyListView(
-                                      isRow: true,
-                                      scroll: true,
-                                      children: category.blogs!
-                                          .map(
-                                            (blog) => Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 3 * fem),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Get.toNamed(
-                                                      Routes.BLOG_DETAILS,
-                                                      arguments: {
-                                                        "blog": blog
-                                                      });
-                                                },
-                                                child: RoundedContainer(
+              : Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10 * fem),
+                  child: RoundedContainer(
+                    height: 185 * fem,
+                    // color: ColorPallete.grey,
+                    radius: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: MyListView(
+                            isRow: true,
+                            scroll: true,
+                            children: controller.blogs
+                                .map(
+                                  (blog) => Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 7.5 * fem, vertical: 15),
+                                    child: Container(
+                                      decoration: BoxDecoration(boxShadow: [
+                                        BoxShadow(
+                                            color: ColorPallete.grey
+                                                .withOpacity(0.25),
+                                            blurRadius: 15,
+                                            spreadRadius: 5)
+                                      ]),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Get.toNamed(Routes.BLOG_DETAILS,
+                                              arguments: {"blog": blog});
+                                        },
+                                        child: RoundedContainer(
+                                          radius: 10,
+                                          clip: Clip.antiAlias,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2 *
+                                              fem,
+                                          color: ColorPallete.theme,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: MyListView(
+                                              children: [
+                                                RoundedContainer(
                                                   radius: 10,
-                                                  clip: Clip.antiAlias,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      3,
-                                                  color: ColorPallete.primary
-                                                      .withOpacity(0.5),
-                                                  child: Image.network(
-                                                    blog.filename!,
-                                                    fit: BoxFit.fill,
-                                                  ),
+                                                  height: 100 * fem,
+                                                  color: ColorPallete.grey
+                                                      .withOpacity(0.25),
                                                 ),
-                                              ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 5.0),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: TextView(
+                                                              text: blog
+                                                                  .blogName
+                                                                  .toString(),
+                                                              fontSize: 14,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              maxlines: 1,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          TextView(
+                                                            text: blog
+                                                                .blogDetails
+                                                                .toString(),
+                                                            fontSize: 12,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            maxlines: 1,
+                                                            color: ColorPallete
+                                                                .secondary,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                          )
-                                          .toList(),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            )
-                          ],
+                                )
+                                .toList(),
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
+                      ],
+                    ),
+                  ),
                 ),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          //   child: Center(
-          //     child: RoundedContainer(
-          //       radius: 10,
-          //       color: ColorPallete.primary,
-          //       child: Padding(
-          //         padding: const EdgeInsets.all(15.0),
-          //         child: Center(
-          //           child: TextView(
-          //             text: "Customer Care",
-          //             color: ColorPallete.theme,
-          //             fontSize: 16,
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // )
         ],
       ),
     );

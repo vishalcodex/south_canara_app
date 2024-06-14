@@ -35,7 +35,7 @@ class BlogController extends GetxController {
   }
 
   void fetchBlogsByCategory() async {
-    blogs.value = category.value.blogs!;
+    // blogs.value = category.value.blogs!;
     blogs.refresh();
     // await _categoryRepository.fetchBlogsByCategory(category).then((value) {
     //   if (value.status == Status.COMPLETED) {

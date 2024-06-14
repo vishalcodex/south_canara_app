@@ -30,6 +30,9 @@ class Routes {
 
   static const ONBOARDING_QUOTE = '/onboarding/quote';
   static const CHAT = '/chat';
+  static const ABOUT_US = '/about_us';
+  static const TERMS_N_CONDITIONS = '/terms_n_conditions';
+  static const PRIVACY_POLICY = '/privacy_policy';
 
   static const ADVERTISEMENT = '/advertisement';
   static const STATEMENT = '/statement';
@@ -48,15 +51,13 @@ class Routes {
   static const MEMBERSHIP = '/membership';
   static const CREATE_WEBSITE = '/create_website';
   static const PACKAGES = '/packages';
-  static const TEMPLATES = '/templates';
-  static const TEMPLATE_PREVIEW = '/template_preview';
-  static const BUSINESS_DETAIL_FORM = '/business_detail_form';
-  static const BUSINESS_CATEGORY_FORM = '/business_category_form';
-  static const BUSINESS_TESTIMONIALS_FORM = '/business_testimonials_form';
-  static const BUSINESS_CONTACT_US_FORM = '/business_contact_us_form';
   static const PAYMENT = '/payment';
   static const WEB_CONGRATS = '/web_congrats';
   static const CATEGORY = '/categories';
+  static const PRODUCT_SUPPLIER_DETAILS = '/product_supplier_details';
+  static const SUPPLIER_DETAILS = '/supplier_details';
+  static const BUYER_DETAILS = '/buyer_details';
+  static const CONTACTED_SELLERS = '/contacted_sellers';
 
   //VENDOR
   static const VENDOR = '/vendor';

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../models/api_response.dart';
+import '../models/contacted_seller_model.dart';
 import '../models/user_model.dart';
 import '../providers/api_provider.dart';
 import 'package:dio/dio.dart' as dio;
@@ -37,18 +38,6 @@ class UserRepository {
   //   });
   // }
 
-  // Future<ApiResponse> setVpin(String vpin) async {
-  //   return await apiProvider
-  //       .makeAPICall("POST", "api/set-vpin", {"vpin": vpin}).then((value) {
-  //     if (value.status == Status.COMPLETED) {
-  //       // User user = User.fromJson(value.data["user"]);
-  //       // user.token = value.data["token"];
-  //       // value.data = user;
-  //     }
-  //     return value;
-  //   });
-  // }
-
   // Future<ApiResponse> setPassword(String password) async {
   //   return await apiProvider.makeAPICall(
   //       "POST", "api/set-password", {"password": password}).then((value) {
@@ -73,25 +62,24 @@ class UserRepository {
     });
   }
 
-  // Future<ApiResponse> forgotPassword(String email) async {
-  //   return await apiProvider
-  //       .makeAPICall(
-  //           "POST", "forgot_password", dio.FormData.fromMap({"email": email}))
-  //       .then((value) {
-  //     if (value.status == Status.COMPLETED) {
-  //       // User user = User.fromJson(value.data["user"]);
-  //       // user.token = value.data["token"];
-  //       // value.data = user;
-  //     }
-  //     return value;
-  //   });
-  // }
+  Future<ApiResponse> forgotPassword(var data) async {
+    var body = dio.FormData.fromMap(data);
+    return await apiProvider
+        .makeAPICall("POST", "forget-password", body)
+        .then((value) {
+      if (value.status == Status.COMPLETED) {
+        // User user = User.fromJson(value.data["user"]);
+        // user.token = value.data["token"];
+        // value.data = user;
+      }
+      return value;
+    });
+  }
 
   Future<ApiResponse> fetchUserDetails() async {
-    return await apiProvider
-        .makeAPICall("GET", "users-details", {}).then((value) {
+    return await apiProvider.makeAPICall("GET", "profile", {}).then((value) {
       if (value.status == Status.COMPLETED) {
-        User user = User.fromJson(value.data["data"]);
+        User user = User.fromJson(value.data["user"]);
         value.data = user;
       }
       return value;
@@ -118,6 +106,21 @@ class UserRepository {
         user.token = value.data["token"];
         value.data = user;
       }
+      return value;
+    });
+  }
+
+  Future<ApiResponse> fetchMyEnquires() async {
+    return await apiProvider
+        .makeAPICall("GET", "user_enquiry", {}).then((value) {
+      if (value.status == Status.COMPLETED) {
+        value.data = (value.data["enquiries"] as List)
+            .map((e) => ContactedSeller.fromJson(e))
+            .toList();
+      } else {
+        value.data = [];
+      }
+
       return value;
     });
   }

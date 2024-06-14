@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -5,6 +6,7 @@ import '../../../../../common/color_pallete.dart';
 import '../../../../components/ui/my_list_view.dart';
 import '../../../../components/ui/rounded_container.dart';
 import '../../../../components/ui/text_view.dart';
+import '../../../../providers/api_endpoints.dart';
 import '../../controllers/vendor_controller.dart';
 
 // ignore: must_be_immutable
@@ -17,7 +19,6 @@ class AdminMessagesScreen extends GetView<VendorController> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     // double ffem = fem * 0.97;
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Scaffold(
           backgroundColor: ColorPallete.theme,
@@ -57,7 +58,7 @@ class AdminMessagesScreen extends GetView<VendorController> {
                                         onTap: () {},
                                         child: RoundedContainer(
                                           radius: 10,
-                                          height: 125,
+                                          height: 200,
                                           color: ColorPallete.grey
                                               .withOpacity(0.5),
                                           child: Padding(
@@ -100,33 +101,63 @@ class AdminMessagesScreen extends GetView<VendorController> {
                                           ]),
                                           child: RoundedContainer(
                                             radius: 10,
-                                            height: 125,
+                                            // height: 225,
                                             color: ColorPallete.theme,
                                             child: Padding(
                                               padding:
                                                   EdgeInsets.all(5.0 * fem),
-                                              child: Center(
-                                                child: MyListView(
-                                                  children: [
-                                                    EntryWidget(
-                                                      title: "Customer Name",
-                                                      value: e["cust_name"],
+                                              child: MyListView(
+                                                children: [
+                                                  RoundedContainer(
+                                                    radius: 10,
+                                                    height: 150,
+                                                    clip: Clip
+                                                        .antiAliasWithSaveLayer,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: Urls.getImageUrl(
+                                                          e.notificationImg!),
+                                                      fit: BoxFit.fill,
                                                     ),
-                                                    EntryWidget(
-                                                      title:
-                                                          "Enquiry against product",
-                                                      value: e["product_name"],
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.all(
+                                                        10.0 * fem),
+                                                    child: MyListView(
+                                                      children: [
+                                                        TextView(
+                                                          text: e
+                                                              .notificationTitle!,
+                                                          color: ColorPallete
+                                                              .secondary,
+                                                          fontSize: 16,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          weight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5 * fem,
+                                                        ),
+                                                        TextView(
+                                                          text: e
+                                                              .notificationDescription!,
+                                                          color: ColorPallete
+                                                              .secondary,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ],
                                                     ),
-                                                    EntryWidget(
-                                                      title: "Location",
-                                                      value: e["location"],
-                                                    ),
-                                                    EntryWidget(
-                                                      title: "Date",
-                                                      value: e["date"],
-                                                    ),
-                                                  ],
-                                                ),
+                                                  ),
+
+                                                  // EntryWidget(
+                                                  //   title: "Location",
+                                                  //   value: e["location"],
+                                                  // ),
+                                                  // EntryWidget(
+                                                  //   title: "Date",
+                                                  //   value: e["date"],
+                                                  // ),
+                                                ],
                                               ),
                                             ),
                                           ),

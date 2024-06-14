@@ -1,6 +1,7 @@
 class Vendor {
   int? id;
   String? email;
+  String? userType;
   String? profileImage;
   String? companyName;
   String? address;
@@ -49,6 +50,7 @@ class Vendor {
   Vendor.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
+    userType = json['user_type'] == 0 ? "Buyer" : "Seller";
     profileImage = json['profile_image'];
     companyName = json['company_name'];
     address = json['address'];
@@ -66,7 +68,7 @@ class Vendor {
     bankAccountNumber = json['bank_account_number'];
     ifscCode = json['ifsc_code'];
     beneficiaryName = json['beneficiary_name'];
-    yearOfEstablishment = json['year_of_establishment'];
+    yearOfEstablishment = json['year_of_establishment'].toString();
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -75,6 +77,7 @@ class Vendor {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = id;
     data['email'] = email;
+    data['user_type'] = userType;
     data['profile_image'] = profileImage;
     data['company_name'] = companyName;
     data['address'] = address;

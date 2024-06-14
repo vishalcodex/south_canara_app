@@ -1,14 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '/common/theme.dart';
 import '../app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-// import 'package:aryo_app/app/providers/firebase_provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-// import 'package:onesignal_flutter/onesignal_flutter.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 // import '../app/services/settings_service.dart';
-// import 'app/providers/api_provider.dart';
 import 'app/providers/api_provider.dart';
 import 'app/services/auth_service.dart';
 import 'common/transalations/translator.dart';
@@ -35,12 +34,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // ONE SIGNAL
   // Remove this method to stop OneSignal Debugging
-  // if (kDebugMode) {
-  //   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-  // }
-  // OneSignal.initialize("<YOUR APP ID HERE>");
-  // // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-  // OneSignal.Notifications.requestPermission(true);
+  if (kDebugMode) {
+    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  }
+  OneSignal.initialize("08bc132e-cd7d-450b-83e0-d7b84510c19b");
+  // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+  OneSignal.Notifications.requestPermission(true);
 
   await initServices();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

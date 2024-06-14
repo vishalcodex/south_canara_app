@@ -17,7 +17,6 @@ class EnquiresScreen extends GetView<VendorController> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     // double ffem = fem * 0.97;
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Scaffold(
           backgroundColor: ColorPallete.theme,
@@ -42,99 +41,168 @@ class EnquiresScreen extends GetView<VendorController> {
                   child: MyListView(
                     scroll: true,
                     children: [
-                      Obx(() => controller.isLoading.value
-                          ? Shimmer.fromColors(
-                              baseColor: Colors.grey.withOpacity(0.5),
-                              highlightColor: Colors.white,
-                              child: Padding(
-                                padding: EdgeInsets.all(10 * fem),
-                                child: MyListView(
-                                  children: [1, 2, 3].map((e) {
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 5.0 * fem),
-                                      child: InkWell(
-                                        onTap: () {},
-                                        child: RoundedContainer(
-                                          radius: 10,
-                                          height: 125,
-                                          color: ColorPallete.grey
-                                              .withOpacity(0.5),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(10.0 * fem),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            )
-                          : controller.enquires.isEmpty
-                              ? SizedBox(
-                                  height: 200 * fem,
-                                  child: const Center(
-                                    child: TextView(
-                                      text: "No Enquires!",
-                                      fontSize: 24,
-                                      weight: FontWeight.bold,
-                                      color: ColorPallete.grey,
-                                    ),
-                                  ),
-                                )
-                              : Padding(
+                      Obx(
+                        () => controller.isLoading.value
+                            ? Shimmer.fromColors(
+                                baseColor: Colors.grey.withOpacity(0.5),
+                                highlightColor: Colors.white,
+                                child: Padding(
                                   padding: EdgeInsets.all(10 * fem),
                                   child: MyListView(
-                                    children: controller.enquires.map((e) {
+                                    children: [1, 2, 3].map((e) {
                                       return Padding(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 5.0 * fem),
-                                        child: Container(
-                                          decoration: BoxDecoration(boxShadow: [
-                                            BoxShadow(
-                                                spreadRadius: 2.5,
-                                                blurRadius: 10,
-                                                color: ColorPallete.grey
-                                                    .withOpacity(0.5),
-                                                offset: const Offset(5, 5))
-                                          ]),
+                                        child: InkWell(
+                                          onTap: () {},
                                           child: RoundedContainer(
                                             radius: 10,
                                             height: 125,
-                                            color: ColorPallete.theme,
+                                            color: ColorPallete.grey
+                                                .withOpacity(0.5),
                                             child: Padding(
                                               padding:
-                                                  EdgeInsets.all(5.0 * fem),
-                                              child: Center(
-                                                child: MyListView(
-                                                  children: [
-                                                    EntryWidget(
-                                                      title: "Customer Name",
-                                                      value: e["cust_name"],
-                                                    ),
-                                                    EntryWidget(
-                                                      title:
-                                                          "Enquiry against product",
-                                                      value: e["product_name"],
-                                                    ),
-                                                    EntryWidget(
-                                                      title: "Location",
-                                                      value: e["location"],
-                                                    ),
-                                                    EntryWidget(
-                                                      title: "Date",
-                                                      value: e["date"],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                                                  EdgeInsets.all(10.0 * fem),
                                             ),
                                           ),
                                         ),
                                       );
                                     }).toList(),
                                   ),
-                                ))
+                                ),
+                              )
+                            : controller.enquires.isEmpty
+                                ? SizedBox(
+                                    height: 200 * fem,
+                                    child: const Center(
+                                      child: TextView(
+                                        text: "No Enquires!",
+                                        fontSize: 24,
+                                        weight: FontWeight.bold,
+                                        color: ColorPallete.grey,
+                                      ),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.all(10 * fem),
+                                    child: MyListView(
+                                      children:
+                                          controller.enquires.map((enquiry) {
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 5.0 * fem),
+                                          child: Container(
+                                            decoration:
+                                                BoxDecoration(boxShadow: [
+                                              BoxShadow(
+                                                  spreadRadius: 2.5,
+                                                  blurRadius: 10,
+                                                  color: ColorPallete.grey
+                                                      .withOpacity(0.5),
+                                                  offset: const Offset(5, 5))
+                                            ]),
+                                            child: RoundedContainer(
+                                              radius: 10,
+                                              color: ColorPallete.theme,
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.all(5.0 * fem),
+                                                child: Center(
+                                                  child: MyListView(
+                                                    children: [
+                                                      EntryWidget(
+                                                        title: "Customer Name",
+                                                        value: enquiry
+                                                            .user!.name
+                                                            .toString(),
+                                                      ),
+                                                      EntryWidget(
+                                                        title: "Company Name",
+                                                        value: (enquiry
+                                                                    .user!
+                                                                    .buyer
+                                                                    ?.companyName ??
+                                                                "")
+                                                            .toString(),
+                                                      ),
+                                                      EntryWidget(
+                                                        title: "For product",
+                                                        value: enquiry.product
+                                                            ?.productName
+                                                            .toString(),
+                                                      ),
+                                                      EntryWidget(
+                                                        title: "Quantity",
+                                                        value:
+                                                            "${enquiry.quantity} ${enquiry.product!.productUnit}",
+                                                      ),
+                                                      EntryWidget(
+                                                        title: "Location",
+                                                        value:
+                                                            enquiry.location!,
+                                                      ),
+                                                      // EntryWidget(
+                                                      //   title: "Date",
+                                                      //   value: DateFormat(
+                                                      //           "dd MMM yyyy hh:mm a")
+                                                      //       .format(DateFormat(
+                                                      //               "yyyy-MM-ddTHH:mm:ss")
+                                                      //           .parse(enquiry
+                                                      //               .createdAt!)),
+                                                      // ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(5.0),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                controller.showBuyerProfile(
+                                                                    enquiry
+                                                                        .user!
+                                                                        .buyer);
+                                                              },
+                                                              child:
+                                                                  const RoundedContainer(
+                                                                radius: 10,
+                                                                color:
+                                                                    ColorPallete
+                                                                        .primary,
+                                                                child: Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              10.0),
+                                                                  child:
+                                                                      TextView(
+                                                                    text:
+                                                                        "View Buyer Profile",
+                                                                    color: ColorPallete
+                                                                        .theme,
+                                                                    fontSize:
+                                                                        14,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                      )
                     ],
                   ),
                 ),
@@ -177,13 +245,16 @@ class EntryWidget extends StatelessWidget {
               weight: FontWeight.w600,
             ),
           ),
-          RoundedContainer(
-            radius: 0,
-            child: TextView(
-              text: value ?? "",
-              color: ColorPallete.secondary,
-              fontSize: 14,
-              weight: FontWeight.w600,
+          Expanded(
+            child: RoundedContainer(
+              radius: 0,
+              child: TextView(
+                text: value ?? "",
+                color: ColorPallete.secondary,
+                fontSize: 14,
+                weight: FontWeight.w600,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           )
         ],

@@ -84,11 +84,13 @@ class ApiProvider extends GetxService with ApiClient {
     try {
       var result;
       if (kDebugMode) {
-        print(url);
+        print(method + " " + url.toString());
+        log(data.toString());
       }
       switch (method) {
         case "GET":
-          result = await _httpClient.get(url.path);
+          result = await _httpClient.get(url.path,
+              queryParameters: (data.isEmpty ? null : data));
           break;
         case "POST":
           result = await _httpClient.post(url.path, data: data);
@@ -121,11 +123,15 @@ class ApiProvider extends GetxService with ApiClient {
             translations.connectionTimeout.tr, Error.TIME_OUT_ERROR);
       }
       if (ex.response != null) {
+        log(ex.response!.data.toString());
         switch (ex.response!.statusCode) {
           case 404:
             return ApiResponse.error(
                 ex.response!.data["message"], Error.DATA_FETCH_ERROR);
           case 403:
+            return ApiResponse.error(
+                ex.response!.data["message"], Error.DATA_FETCH_ERROR);
+          case 422:
             return ApiResponse.error(
                 ex.response!.data["message"], Error.DATA_FETCH_ERROR);
           default:

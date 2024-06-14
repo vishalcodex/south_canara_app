@@ -163,8 +163,7 @@ class LoginScreen extends GetView<AuthController> {
                                             cursorColor: ColorPallete.secondary,
                                             decoration:
                                                 InputDecoration().copyWith(
-                                              labelText:
-                                                  translations.phoneNumber.tr,
+                                              labelText: translations.email.tr,
                                               labelStyle: const TextStyle(
                                                   fontSize: 16,
                                                   color:
@@ -192,9 +191,7 @@ class LoginScreen extends GetView<AuthController> {
                                               return null;
                                             },
                                             onChanged: (value) {
-                                              controller
-                                                      .creds["mobile_number"] =
-                                                  value;
+                                              controller.creds["email"] = value;
                                             },
                                           ),
                                           const SizedBox(
@@ -271,7 +268,35 @@ class LoginScreen extends GetView<AuthController> {
                                               const Spacer(),
                                               InkWell(
                                                 onTap: () {
-                                                  controller.signIn();
+                                                  controller
+                                                      .errorMessage.value = "";
+                                                  Get.toNamed(
+                                                      Routes.FORGOT_PASSWORD);
+                                                },
+                                                // inkwell color
+                                                child: const RoundedContainer(
+                                                  radius: 60,
+                                                  child: TextView(
+                                                    text: "Forgot Password ?",
+                                                    fontSize: 16,
+                                                    weight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Spacer(),
+                                              InkWell(
+                                                onTap: () {
+                                                  if (!controller
+                                                      .isLoading.value) {
+                                                    controller.signIn();
+                                                  }
                                                 },
                                                 // inkwell color
                                                 child: RoundedContainer(

@@ -16,7 +16,7 @@ class OnBoardingMiddleWare extends GetMiddleware {
     // } else
     if (authService.token == null) {
       return const RouteSettings(
-        name: Routes.AUTH,
+        name: Routes.LOGIN,
       );
     } else if (route! != Routes.HOME && route != Routes.VENDOR) {
       return const RouteSettings(name: Routes.HOME);

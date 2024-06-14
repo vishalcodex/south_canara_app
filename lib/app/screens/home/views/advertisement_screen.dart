@@ -5,7 +5,7 @@ import '../../../../common/color_pallete.dart';
 import '../../../components/ui/custom_app_bar.dart';
 import '../../../components/ui/rounded_container.dart';
 import '../../../components/ui/text_view.dart';
-import '../../../models/ads_model.dart';
+import '../../../models/slide_model.dart';
 
 class AdvertisementScreen extends StatelessWidget {
   const AdvertisementScreen({
@@ -17,7 +17,7 @@ class AdvertisementScreen extends StatelessWidget {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     // double ffem = fem * 0.97;
-    Ads ad = Get.arguments;
+    Slide slide = Get.arguments;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(0, 50 * fem),
@@ -36,7 +36,7 @@ class AdvertisementScreen extends StatelessWidget {
                 width: double.infinity,
                 clip: Clip.antiAliasWithSaveLayer,
                 child: Image.network(
-                  ad.image.toString(),
+                  slide.sliderImage.toString(),
                   fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) {
                     return Placeholder();
@@ -49,7 +49,7 @@ class AdvertisementScreen extends StatelessWidget {
               RoundedContainer(
                 radius: 0,
                 child: TextView(
-                  text: ad.title.toString(),
+                  text: slide.sliderName.toString(),
                   color: ColorPallete.secondary,
                   fontSize: 18,
                   weight: FontWeight.bold,
@@ -61,7 +61,7 @@ class AdvertisementScreen extends StatelessWidget {
               RoundedContainer(
                 radius: 0,
                 child: TextView(
-                  text: ad.description.toString(),
+                  text: slide.sliderDescription.toString(),
                   fontSize: 14,
                   color: ColorPallete.secondary,
                   alignment: TextAlign.justify,

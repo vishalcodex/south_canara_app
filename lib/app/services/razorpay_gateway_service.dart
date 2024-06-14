@@ -39,10 +39,10 @@ class RazorpayPG {
           'order_id': razorpayOrderID,
         };
         _razorpay = Razorpay();
-        _razorpay!.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-        _razorpay!.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-        _razorpay!.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-        _razorpay!.open(options);
+        _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+        _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+        _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+        _razorpay.open(options);
       } catch (e) {
         log(e.toString());
       }
@@ -52,7 +52,8 @@ class RazorpayPG {
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {}
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    var getdata = json.decode(response.message!);
+    // var getdata =
+    json.decode(response.message!);
     log(response.message!);
   }
 

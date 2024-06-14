@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:south_canara/app/screens/category/widgets/category_view.dart';
-import 'package:south_canara/app/screens/category/widgets/suppliers_view.dart';
-
-import '../../../components/ui/my_list_view.dart';
 import '../controllers/category_controller.dart';
+import '../widgets/category_view.dart';
+import '../widgets/suppliers_view.dart';
 
 // ignore: must_be_immutable
 class CategoryScreen extends GetView<CategoryController> {
