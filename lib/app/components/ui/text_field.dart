@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../common/color_pallete.dart';
 import '../../../common/utils.dart';
@@ -14,6 +15,8 @@ class MyTextField extends StatelessWidget {
   final bool? showLine;
   final bool? enabled;
   final int? maxLines;
+  final int? length;
+  final TextCapitalization? capitalisation;
   final Function(String value)? onChanged;
   final String? Function(String? value)? validator;
   const MyTextField(
@@ -28,6 +31,8 @@ class MyTextField extends StatelessWidget {
       this.keyboardType,
       this.onChanged,
       this.validator,
+      this.length,
+      this.capitalisation,
       this.maxLines,
       this.enabled});
 
@@ -45,6 +50,10 @@ class MyTextField extends StatelessWidget {
       initialValue: initialValue ?? "",
       keyboardType: keyboardType,
       obscureText: obscureText ?? false,
+      textCapitalization: capitalisation ?? TextCapitalization.none,
+      inputFormatters: [
+        if (length != null) LengthLimitingTextInputFormatter(length),
+      ],
       decoration: InputDecoration(
         border: showLine ?? false ? null : InputBorder.none,
         hintText: hintText ?? "",

@@ -100,15 +100,30 @@ class CustomDrawer extends GetView<HomeController> {
                     ),
                     DrawerItem(
                       image: "assets/ui/user.png",
-                      title: "Vendor View",
+                      title: "Profile",
                       onPressed: () {
                         Get.back();
                         Get.toNamed(
-                          Routes.VENDOR,
+                          Routes.MY_PROFILE,
                         );
                         // controller.setTabIndex.value = 1;
                       },
                     ),
+                    SizedBox(
+                      height: 5 * fem,
+                    ),
+                    DrawerItem(
+                      image: "assets/ui/user.png",
+                      title: "Contacted Sellers",
+                      onPressed: () {
+                        Get.back();
+                        Get.toNamed(
+                          Routes.CONTACTED_SELLERS,
+                        );
+                        // controller.setTabIndex.value = 3;
+                      },
+                    ),
+
                     SizedBox(
                       height: 5 * fem,
                     ),
@@ -125,7 +140,27 @@ class CustomDrawer extends GetView<HomeController> {
                       image: "assets/ui/settings.png",
                       title: translations.aboutUs.tr,
                       onPressed: () {
-                        controller.setTabIndex.value = 2;
+                        Get.toNamed(Routes.ABOUT_US);
+                      },
+                    ),
+                    SizedBox(
+                      height: 5 * fem,
+                    ),
+                    DrawerItem(
+                      image: "assets/ui/certificates.png",
+                      title: "Terms & Condtions",
+                      onPressed: () {
+                        Get.toNamed(Routes.TERMS_N_CONDITIONS);
+                      },
+                    ),
+                    SizedBox(
+                      height: 5 * fem,
+                    ),
+                    DrawerItem(
+                      image: "assets/ui/certificates.png",
+                      title: "Privacy Policy",
+                      onPressed: () {
+                        Get.toNamed(Routes.PRIVACY_POLICY);
                       },
                     ),
                     SizedBox(
@@ -190,9 +225,9 @@ class CustomDrawer extends GetView<HomeController> {
                   color: ColorPallete.primary,
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.0 * fem),
-                    child: Center(
+                    child: const Center(
                       child: TextView(
-                        text: translations.logout.tr,
+                        text: "Logout",
                         color: ColorPallete.theme,
                         fontSize: 20,
                       ),

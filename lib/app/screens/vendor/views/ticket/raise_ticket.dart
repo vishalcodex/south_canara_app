@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:south_canara/app/screens/signup/widgets/form_fields.dart';
 import '../../../../../common/color_pallete.dart';
+import '../../../../components/ui/form_fields.dart';
 import '../../../../components/ui/my_list_view.dart';
 import '../../../../components/ui/rounded_container.dart';
 import '../../../../components/ui/text_view.dart';
+import '../../../../models/ticket_model.dart';
 import '../../controllers/vendor_controller.dart';
 
 // ignore: must_be_immutable
@@ -18,7 +19,6 @@ class RaiseTicketScreen extends GetView<VendorController> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     // double ffem = fem * 0.97;
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Scaffold(
           backgroundColor: ColorPallete.theme,
@@ -37,7 +37,7 @@ class RaiseTicketScreen extends GetView<VendorController> {
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () {
-                    // controller.fetchEnquires();
+                    controller.fetchTickets();
                     return Future.value();
                   },
                   child: MyListView(
@@ -91,12 +91,11 @@ class RaiseTicketScreen extends GetView<VendorController> {
                                       shrinkWrap: true,
                                       itemCount: controller.tickets.length,
                                       itemBuilder: (context, index) {
-                                        var ticket =
+                                        Ticket ticket =
                                             controller.tickets.elementAt(index);
                                         return RaisedTicketWidget(
                                           ticket: ticket,
                                           onTicketSubmit: () {
-                                            ticket["status"] = "IN PROGRESS";
                                             controller.submitTicket(ticket);
                                           },
                                         );
@@ -134,7 +133,7 @@ class RaiseTicketScreen extends GetView<VendorController> {
 }
 
 class RaisedTicketWidget extends StatelessWidget {
-  final Map<String, String> ticket;
+  final Ticket ticket;
   final Function() onTicketSubmit;
   const RaisedTicketWidget(
       {super.key, required this.ticket, required this.onTicketSubmit});
@@ -143,7 +142,7 @@ class RaisedTicketWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    bool isEditable = ticket["status"] == null;
+    bool isEditable = ticket.status == null;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5.0 * fem),
       child: Container(
@@ -165,31 +164,31 @@ class RaisedTicketWidget extends StatelessWidget {
                       children: [
                         MyFormField(
                           fieldName: "Topic",
-                          initialValue: ticket["topic"],
+                          initialValue: ticket.topic,
                           type: InputType.TEXT,
                           keyboard: TextInputType.text,
                           onChanged: (value) {
-                            ticket["topic"] = value;
+                            ticket.topic = value;
                           },
                         ),
                         MyFormField(
                           fieldName: "Query",
-                          initialValue: ticket["query"],
+                          initialValue: ticket.query,
                           maxLines: 4,
                           type: InputType.TEXT,
                           keyboard: TextInputType.text,
                           onChanged: (value) {
-                            ticket["query"] = value;
+                            ticket.query = value;
                           },
                         ),
                         MyFormField(
                           fieldName: "Priority",
-                          initialValue: ticket["priority"],
+                          initialValue: ticket.priority,
                           type: InputType.DROP_DOWN,
                           keyboard: TextInputType.text,
                           dropDownOptions: const ["Low", "Medium", "High"],
                           onChanged: (value) {
-                            ticket["priority"] = value;
+                            ticket.priority = value;
                           },
                         ),
                         Padding(
@@ -221,34 +220,37 @@ class RaisedTicketWidget extends StatelessWidget {
                         children: [
                           EntryWidget(
                             title: "Topic",
-                            value: ticket["topic"],
+                            value: ticket.topic,
                           ),
                           EntryWidget(
                             title: "Query",
-                            value: ticket["query"],
+                            value: ticket.query,
                           ),
                           EntryWidget(
                             title: "Priority",
-                            value: ticket["priority"],
+                            value: ticket.priority,
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(10.0 * fem),
-                            child: Row(
-                              children: [
-                                const TextView(
-                                  text: "Status : ",
-                                  color: ColorPallete.secondary,
-                                  fontSize: 14,
-                                ),
-                                TextView(
-                                  text: ticket["status"].toString(),
-                                  color: ColorPallete.secondary,
-                                  fontSize: 14,
-                                  weight: FontWeight.w700,
-                                ),
-                              ],
-                            ),
-                          )
+                          // Padding(
+                          //   padding: EdgeInsets.all(10.0 * fem),
+                          //   child: Row(
+                          //     children: [
+                          //       const TextView(
+                          //         text: "Status : ",
+                          //         color: ColorPallete.secondary,
+                          //         fontSize: 14,
+                          //       ),
+                          //       Expanded(
+                          //         child: TextView(
+                          //           text: ticket.status.toString(),
+                          //           color: ColorPallete.primary,
+                          //           fontSize: 14,
+                          //           weight: FontWeight.w700,
+                          //           overflow: TextOverflow.ellipsis,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // )
                         ],
                       ),
                     ),
@@ -290,13 +292,16 @@ class EntryWidget extends StatelessWidget {
               weight: FontWeight.w600,
             ),
           ),
-          RoundedContainer(
-            radius: 0,
-            child: TextView(
-              text: value ?? "",
-              color: ColorPallete.secondary,
-              fontSize: 14,
-              weight: FontWeight.w600,
+          Expanded(
+            child: RoundedContainer(
+              radius: 0,
+              child: TextView(
+                text: value ?? "",
+                color: ColorPallete.secondary,
+                fontSize: 14,
+                weight: FontWeight.w600,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           )
         ],

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../common/color_pallete.dart';
-import '../../../../components/ui/image_input.dart';
 import '../../../../components/ui/my_list_view.dart';
-import '../../../../components/ui/rounded_container.dart';
 import '../../../../components/ui/text_view.dart';
-import '../../../signup/widgets/form_fields.dart';
 import '../../controllers/product_controller.dart';
 
 // ignore: must_be_immutable
@@ -14,12 +11,11 @@ class SubscriptionScreen extends GetView<ProductController> {
 
   @override
   Widget build(BuildContext context) {
-    double baseWidth = 360;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
+    // double baseWidth = 360;
+    // double fem = MediaQuery.of(context).size.width / baseWidth;
     // double ffem = fem * 0.97;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Scaffold(
           backgroundColor: ColorPallete.theme,

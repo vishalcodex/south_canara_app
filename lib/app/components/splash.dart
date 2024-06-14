@@ -68,28 +68,25 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 40.0 * fem),
-                    child: AnimatedContainer(
-                      height: showAuthOptions ? 200 * fem : 150 * fem,
-                      duration: const Duration(seconds: 2),
-                      child: Image.asset(
-                        "assets/ui/profile.png",
-                        fit: BoxFit.fitHeight,
-                      ),
+                    child: Image.asset(
+                      "assets/ui/logo.jpeg",
+                      fit: BoxFit.fitWidth,
+                      // color: Colors.red,
                     ),
                   ),
-                  SizedBox(
-                    height: 25 * fem,
-                  ),
+                  // SizedBox(
+                  //   height: 25 * fem,
+                  // ),
 
-                  const Center(
-                    child: TextView(
-                      text: "South Canara",
-                      color: ColorPallete.secondary,
-                      fontSize: 24,
-                      weight: FontWeight.bold,
-                      alignment: TextAlign.center,
-                    ),
-                  ),
+                  // const Center(
+                  //   child: TextView(
+                  //     text: "South Canara",
+                  //     color: ColorPallete.secondary,
+                  //     fontSize: 24,
+                  //     weight: FontWeight.bold,
+                  //     alignment: TextAlign.center,
+                  //   ),
+                  // ),
                   // SizedBox(
                   //   height: 10 * fem,
                   // ),

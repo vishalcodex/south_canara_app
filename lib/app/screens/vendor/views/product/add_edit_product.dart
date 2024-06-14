@@ -1,12 +1,15 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../../../common/color_pallete.dart';
+import '../../../../components/ui/form_fields.dart';
 import '../../../../components/ui/image_input.dart';
 import '../../../../components/ui/my_list_view.dart';
 import '../../../../components/ui/rounded_container.dart';
 import '../../../../components/ui/text_view.dart';
-import '../../../signup/widgets/form_fields.dart';
+import '../../../../providers/api_endpoints.dart';
 import '../../controllers/product_controller.dart';
 
 // ignore: must_be_immutable
@@ -18,9 +21,8 @@ class ProductEditScreen extends GetView<ProductController> {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     // double ffem = fem * 0.97;
-    bool isAdd = Get.arguments?["isAdd"] ?? false;
+    bool isAdd = (controller.selectedProduct.value.id ?? 0) == 0;
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Scaffold(
           backgroundColor: ColorPallete.theme,
@@ -40,108 +42,229 @@ class ProductEditScreen extends GetView<ProductController> {
                 child: MyListView(
                   scroll: true,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(10.0 * fem),
-                      child: MyListView(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Stack(
-                                children: [
-                                  ImageInput(
-                                    callback: (img) {},
-                                    child: RoundedContainer(
+                    Obx(
+                      () => Padding(
+                        padding: EdgeInsets.all(10.0 * fem),
+                        child: MyListView(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Stack(
+                                  children: [
+                                    RoundedContainer(
                                       borderColor: ColorPallete.primary,
                                       radius: 125,
                                       height: 125,
                                       width: 125,
-                                      child: Icon(
-                                        Icons.photo_outlined,
-                                        size: 50,
-                                        color: ColorPallete.grey,
+                                      child: RoundedContainer(
+                                        clip: Clip.antiAliasWithSaveLayer,
+                                        radius: 124,
+                                        child: CachedNetworkImage(
+                                          imageUrl: Urls.getImageUrl(controller
+                                                  .selectedProduct
+                                                  .value
+                                                  .productImage ??
+                                              ""),
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) {
+                                            return Image.file(
+                                              File(controller.selectedProduct
+                                                      .value.productImage ??
+                                                  ""),
+                                              fit: BoxFit.cover,
+                                              errorBuilder:
+                                                  (context, error, stackTrace) {
+                                                return const Icon(
+                                                  Icons.photo_outlined,
+                                                  size: 50,
+                                                  color: ColorPallete.grey,
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ),
+                                    Positioned(
+                                      right: 0,
+                                      bottom: 0,
+                                      child: ImageInput(
+                                        callback: (img) {
+                                          controller.selectedProduct.value
+                                              .productImage = img;
+                                          controller.selectedProduct.refresh();
+                                        },
+                                        child: const CircleAvatar(
+                                          backgroundColor: ColorPallete.primary,
+                                          child: Icon(
+                                            Icons.camera_alt_outlined,
+                                            color: ColorPallete.theme,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10 * fem,
+                            ),
+                            MyFormField(
+                              initialValue:
+                                  controller.selectedProduct.value.productName,
+                              fieldName: "Product Name",
+                              type: InputType.TEXT,
+                              keyboard: TextInputType.text,
+                              onChanged: (value) {
+                                controller.selectedProduct.value.productName =
+                                    value;
+                              },
+                            ),
+                            MyFormField(
+                              initialValue: controller.categories
+                                      .where((p0) =>
+                                          p0.id ==
+                                          controller
+                                              .selectedProduct.value.categoryId)
+                                      .isEmpty
+                                  ? null
+                                  : controller.categories
+                                      .where((p0) =>
+                                          p0.id ==
+                                          controller
+                                              .selectedProduct.value.categoryId)
+                                      .first
+                                      .name,
+                              fieldName: "Product Category",
+                              type: InputType.DROP_DOWN,
+                              dropDownOptions: controller.categories
+                                  .map((element) => element.name)
+                                  .toList(),
+                              keyboard: TextInputType.text,
+                              onChanged: (value) {
+                                controller.onCategorySelected(value);
+                              },
+                            ),
+                            controller.subcategories.isEmpty
+                                ? const SizedBox.shrink()
+                                : MyFormField(
+                                    initialValue: controller.subcategories
+                                            .where((p0) =>
+                                                p0.id ==
+                                                controller.selectedProduct.value
+                                                    .subcategoryId)
+                                            .isEmpty
+                                        ? null
+                                        : controller.subcategories
+                                            .where((p0) =>
+                                                p0.id ==
+                                                controller.selectedProduct.value
+                                                    .subcategoryId)
+                                            .first
+                                            .name,
+                                    fieldName: "Product Sub Category",
+                                    type: InputType.DROP_DOWN,
+                                    dropDownOptions: controller.subcategories
+                                        .map((element) => element.name)
+                                        .toList(),
+                                    keyboard: TextInputType.text,
+                                    onChanged: (value) {
+                                      controller.onSubCategorySelected(value);
+                                    },
                                   ),
-                                  Positioned(
-                                    right: 0,
-                                    bottom: 0,
-                                    child: CircleAvatar(
-                                      backgroundColor: ColorPallete.primary,
-                                      child: Icon(
-                                        Icons.camera_alt_outlined,
-                                        color: ColorPallete.theme,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10 * fem,
-                          ),
-                          MyFormField(
-                            fieldName: "Product Name",
-                            type: InputType.TEXT,
-                            keyboard: TextInputType.text,
-                            onChanged: (value) {},
-                          ),
-                          MyFormField(
-                            fieldName: "Product Category",
-                            type: InputType.DROP_DOWN,
-                            dropDownOptions: ["Food", "Electronics"],
-                            keyboard: TextInputType.text,
-                            onChanged: (value) {},
-                          ),
-                          MyFormField(
-                            fieldName: "Product Sub Category",
-                            type: InputType.DROP_DOWN,
-                            dropDownOptions: ["Sub 1", "Sub 2"],
-                            keyboard: TextInputType.text,
-                            onChanged: (value) {},
-                          ),
-                          MyFormField(
-                            fieldName: "Product Description",
-                            type: InputType.TEXT,
-                            keyboard: TextInputType.text,
-                            onChanged: (value) {},
-                            maxLines: 3,
-                          ),
-                          MyFormField(
-                            fieldName: "Product Unit",
-                            type: InputType.TEXT,
-                            keyboard: TextInputType.number,
-                            onChanged: (value) {},
-                          ),
-                          MyFormField(
-                            fieldName: "Product Price",
-                            type: InputType.TEXT,
-                            keyboard: TextInputType.number,
-                            onChanged: (value) {},
-                          ),
-                          MyFormField(
-                            fieldName: "Product MOQ",
-                            type: InputType.TEXT,
-                            keyboard: TextInputType.number,
-                            onChanged: (value) {},
-                          ),
-                          MyFormField(
-                            fieldName: "Product Origin",
-                            type: InputType.TEXT,
-                            keyboard: TextInputType.text,
-                            onChanged: (value) {},
-                          ),
-                          MyFormField(
-                            fieldName: "Packaging Type",
-                            type: InputType.TEXT,
-                            keyboard: TextInputType.text,
-                            onChanged: (value) {},
-                          ),
-                          SizedBox(
-                            height: 5 * fem,
-                          ),
-                        ],
+                            MyFormField(
+                              initialValue: controller
+                                  .selectedProduct.value.productDescription,
+                              fieldName: "Product Description",
+                              type: InputType.TEXT,
+                              keyboard: TextInputType.text,
+                              onChanged: (value) {
+                                controller.selectedProduct.value
+                                    .productDescription = value;
+                              },
+                              maxLines: 3,
+                            ),
+                            MyFormField(
+                              initialValue:
+                                  controller.selectedProduct.value.productUnit,
+                              fieldName: "Product unit - By default in Kgs",
+                              type: InputType.TEXT,
+                              keyboard: TextInputType.text,
+                              onChanged: (value) {
+                                controller.selectedProduct.value.productUnit =
+                                    value;
+                              },
+                            ),
+                            MyFormField(
+                              initialValue:
+                                  controller.selectedProduct.value.productPrice,
+                              fieldName: "Product Price (Exclusive of GST)",
+                              type: InputType.TEXT,
+                              keyboard: TextInputType.number,
+                              onChanged: (value) {
+                                controller.selectedProduct.value.productPrice =
+                                    value;
+                              },
+                            ),
+                            MyFormField(
+                              initialValue: (controller
+                                          .selectedProduct.value.productMoq ??
+                                      "")
+                                  .toString(),
+                              fieldName: "Product MOQ (Minimum Order Quantity)",
+                              type: InputType.TEXT,
+                              keyboard: TextInputType.number,
+                              onChanged: (value) {
+                                controller.selectedProduct.value.productMoq =
+                                    int.parse(value);
+                              },
+                            ),
+                            MyFormField(
+                              initialValue: controller
+                                  .selectedProduct.value.productOrigin,
+                              fieldName: "Product Origin",
+                              type: InputType.DROP_DOWN,
+                              dropDownOptions: const [
+                                "Benin",
+                                "Tanzania",
+                                "Indian",
+                                "Guinea-Bissau",
+                                "Côte d’Ivoire",
+                                "Vietnam",
+                                "Saudi",
+                                "Iran"
+                              ],
+                              keyboard: TextInputType.text,
+                              onChanged: (value) {
+                                controller.selectedProduct.value.productOrigin =
+                                    value;
+                              },
+                            ),
+                            MyFormField(
+                              initialValue: controller
+                                  .selectedProduct.value.packagingType,
+                              fieldName: "Packaging Type",
+                              type: InputType.DROP_DOWN,
+                              dropDownOptions: const [
+                                "10Kgs Tin",
+                                "20kgs Box",
+                                "250grams packing",
+                                "25kgs",
+                                "500 grams packing"
+                              ],
+                              keyboard: TextInputType.text,
+                              onChanged: (value) {
+                                controller.selectedProduct.value.packagingType =
+                                    value;
+                              },
+                            ),
+                            SizedBox(
+                              height: 5 * fem,
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -157,8 +280,9 @@ class ProductEditScreen extends GetView<ProductController> {
                 ]),
                 child: InkWell(
                   onTap: () {
-                    Get.back();
-                    controller.addUpdateProduct(isAdd);
+                    if (!controller.isLoading.value) {
+                      controller.addUpdateProduct(isAdd);
+                    }
                   },
                   child: RoundedContainer(
                     radius: 0,
@@ -166,20 +290,33 @@ class ProductEditScreen extends GetView<ProductController> {
                     child: Padding(
                       padding: EdgeInsets.all(5.0 * fem),
                       child: RoundedContainer(
-                        radius: 10,
-                        color: ColorPallete.primary,
-                        child: Padding(
-                          padding: EdgeInsets.all(15.0 * fem),
-                          child: Center(
-                            child: TextView(
-                              text: isAdd ? "Add Product" : "Update Product",
-                              color: ColorPallete.theme,
-                              fontSize: 14,
-                              weight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
+                          radius: 10,
+                          height: 45,
+                          color: ColorPallete.primary,
+                          child: Obx(
+                            () => controller.isLoading.value
+                                ? const Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: ColorPallete.theme,
+                                      ),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.all(15.0 * fem),
+                                    child: Center(
+                                      child: TextView(
+                                        text: isAdd
+                                            ? "Add Product"
+                                            : "Update Product",
+                                        color: ColorPallete.theme,
+                                        fontSize: 14,
+                                        weight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                          )),
                     ),
                   ),
                 ),

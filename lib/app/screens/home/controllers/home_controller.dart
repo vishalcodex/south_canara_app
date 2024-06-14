@@ -1,19 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:south_canara/app/screens/category/controllers/category_controller.dart';
-import 'package:south_canara/app/screens/category/views/categories_screen.dart';
-import 'package:south_canara/app/services/razorpay_gateway_service.dart';
 
-import '../../../models/ads_model.dart';
 import '../../../models/api_response.dart';
-import '../../../models/category_model.dart';
+import '../../../models/blog_model.dart';
+import '../../../models/contacted_seller_model.dart';
+import '../../../models/package_model.dart';
+import '../../../models/slide_model.dart';
 import '../../../models/user_model.dart';
 import '../../../repositories/slider_repository.dart';
 import '../../../repositories/user_repository.dart';
 import '../../../routes/app_routes.dart';
 import '../../../services/auth_service.dart';
-import '../views/contact_us_view.dart';
+import '../../../services/razorpay_gateway_service.dart';
+import '../../category/controllers/category_controller.dart';
+import '../../category/views/categories_screen.dart';
+import '../../vendor/views/vendor_screen.dart';
 import '../views/home_view.dart';
 import '../../../../../../../common/transalations/translation_keys.dart'
     as translations;
@@ -70,7 +74,7 @@ class HomeController extends GetxController {
       }
     });
 
-    homeRefresh();
+    homeRefresh(refresh: false);
   }
 
   // TABS
@@ -95,10 +99,10 @@ class HomeController extends GetxController {
       "view": NotificationView()
     },
     {
-      "title": translations.contactUs.tr,
-      "icon": "assets/ui/contact_us.png",
+      "title": "Buyer/Seller",
+      "icon": "assets/ui/user.png",
       "pos": "3",
-      "view": const ContactUsView()
+      "view": const VendorScreen()
     },
     // {
     //   "title": "FAQ's",
@@ -145,86 +149,134 @@ class HomeController extends GetxController {
     return DateFormat("d").format(dateTime);
   }
 
-  RxList<Ads> ads = <Ads>[].obs;
-  RxInt selectedAd = 1.obs;
+  RxList<Slide> sliders = <Slide>[].obs;
+  RxInt selectedSlide = (-1).obs;
 
   RxBool isGridView = true.obs;
 
-  void homeRefresh() async {
-    // updateUser();
-    // fetchSliders();
-    // fetchCategories();
+  void homeRefresh({bool? refresh}) async {
+    updateUser();
+    fetchPackages();
+    fetchSliders(refresh ?? true);
+    Get.find<CategoryController>().fetchCategories();
+    fetchBlogs();
   }
 
-  fetchSliders() async {
-    ads.value = [];
+  late Timer sliderTimer;
+  PageController sliderPageController = PageController(initialPage: 0);
+  fetchSliders(bool refresh) async {
+    sliders.value = [];
     await _sliderRepository.fetchSliders().then((value) {
-      if (value.data != []) {
-        ads.value = value.data;
-        selectedAd.value = ads.first.id!;
-      } else {}
-      ads.refresh();
+      if (value.status == Status.COMPLETED) {
+        if (value.data != []) {
+          sliders.value = value.data;
+          selectedSlide.value = 0;
+          if (!refresh) {
+            sliderTimer =
+                Timer.periodic(const Duration(milliseconds: 3000), (timer) {
+              sliderPageController.animateToPage(
+                  (sliderPageController.page!.toInt() + 1 % sliders.length),
+                  duration: const Duration(seconds: 1),
+                  curve: Curves.easeIn);
+            });
+          } else {
+            sliderTimer.cancel();
+            sliderTimer =
+                Timer.periodic(const Duration(milliseconds: 3000), (timer) {
+              sliderPageController.animateToPage(
+                  (sliderPageController.page!.toInt() + 1 % sliders.length),
+                  duration: const Duration(seconds: 1),
+                  curve: Curves.easeIn);
+            });
+          }
+        } else {}
+        sliders.refresh();
+      }
     });
   }
 
-  RxList<Category> categories = <Category>[].obs;
+  RxList<Blog> blogs = <Blog>[].obs;
 
-  Rx<Category> selectedCategory = Category().obs;
-  RxList<Map<String, dynamic>> roles = <Map<String, dynamic>>[
-    {
-      "name": "Free Lancer",
-      "description":
-          "Freelance Writer ,Graphic Designer , Software Developer ,Photographer, Consultant (in various fields such as business,finance, marketing, etc.), Small Business Owner, Real Estate Agent Personal Trainer, Artist (Painter, Sculptor, etc.), Web Developer Content Creator (YouTuber, Podcaster, Blogger), Virtual Assistant Online Tutor, Event Planner, Chef or Caterer"
-    },
-    {
-      "name": "Retailer",
-      "description":
-          "grocery retail and vibrant textile and handloom sectors to eco-friendly organic farming enterprises and sustainable product ventures, these businesses contribute significantly to India's economic diversity. Services such as cleaning, catering, floristry, tailoring, and wellness, including yoga studios"
-    },
-    {
-      "name": "Retailer",
-      "description":
-          "grocery retail and vibrant textile and handloom sectors to eco-friendly organic farming enterprises and sustainable product ventures, these businesses contribute significantly to India's economic diversity. Services such as cleaning, catering, floristry, tailoring, and wellness, including yoga studios"
-    }
-  ].obs;
+  Rx<Blog> selectedBlog = Blog().obs;
+
+  fetchBlogs() async {
+    blogs.value = [];
+    Future.delayed(const Duration(seconds: 3), () {
+      blogs.value = [
+        Blog(blogName: "Blog 1", blogDetails: "Blog Details 1"),
+        Blog(blogName: "Blog 2", blogDetails: "Blog Details 2"),
+        Blog(blogName: "Blog 3", blogDetails: "Blog Details 3"),
+        Blog(blogName: "Blog 4", blogDetails: "Blog Details 4"),
+        Blog(blogName: "Blog 5", blogDetails: "Blog Details 5"),
+      ];
+    });
+  }
 
   void onRoleSelected(Map<String, dynamic> element) {
     Get.toNamed(Routes.PACKAGES);
   }
 
-  RxList<Map<String, dynamic>> packages = <Map<String, dynamic>>[
-    {
-      "name": "Free Package",
-      "description":
-          "Web Developer Content Creator (YouTuber, Podcaster, Blogger), Virtual Assistant Online Tutor, Event Planner, Chef or Caterer",
-      "price": "0",
-      "duration": "14 Days"
-    },
-    {
-      "name": "Basic Package",
-      "description":
-          "Freelance Writer ,Graphic Designer , Software Developer ,Photographer, Consultant (in various fields such as business,finance, marketing, etc.), Small Business Owner, Real Estate Agent Personal Trainer, Artist (Painter, Sculptor, etc.), Web Developer Content Creator (YouTuber, Podcaster, Blogger), Virtual Assistant Online Tutor, Event Planner, Chef or Caterer",
-      "price": "5000",
-      "duration": "30 Days"
-    },
-    {
-      "name": "Economical Package",
-      "description":
-          "Freelance Writer ,Graphic Designer , Software Developer ,Photographer, Consultant (in various fields such as business,finance, marketing, etc.), Small Business Owner, Real Estate Agent Personal Trainer, Artist (Painter, Sculptor, etc.), Web Developer Content Creator (YouTuber, Podcaster, Blogger), Virtual Assistant Online Tutor, Event Planner, Chef or Caterer",
-      "price": "10000",
-      "duration": "30 Days"
-    },
-    {
-      "name": "Premium Package",
-      "description":
-          "Freelance Writer ,Graphic Designer , Software Developer ,Photographer, Consultant (in various fields such as business,finance, marketing, etc.), Small Business Owner, Real Estate Agent Personal Trainer, Artist (Painter, Sculptor, etc.), Web Developer Content Creator (YouTuber, Podcaster, Blogger), Virtual Assistant Online Tutor, Event Planner, Chef or Caterer",
-      "price": "50000",
-      "duration": "30 Days"
-    }
+  RxList<Package> packages = <Package>[
+    // {
+    //   "name": "Introductory Offer Free plan",
+    //   "description":
+    //       "In this plan, we will be giving 3 months free platform access to all users buyers and sellers",
+    //   "price": "0",
+    //   "duration": "3 months"
+    // },
+    // {
+    //   "name": "Free plan",
+    //   "description":
+    //       "After Introductory plan, all user will fall to Free plan, features are\nI. User can send Enquiries to post.\nII. Can update profile\nIII. Can post his products.\nIV. Can get leads (this leads will be displayed in Enquiry tab of vender panel, but can not see. To see these enquiries, he has to subscribe our Economic Plan.",
+    //   "price": "0",
+    //   "duration": "3 months"
+    // },
+    // {
+    //   "name": "Basic Plan",
+    //   "description":
+    //       "In this plan all features of Free Plan and buyer able to see seller details and contact them directly.",
+    //   "price": "99",
+    //   "duration": "30 Days"
+    // },
+    // {
+    //   "name": "Economical Plan",
+    //   "description":
+    //       "In this Plan all features of Free Plan and Basic plan will be available, additionally Seller can view his lead enquiries and contact buyers.",
+    //   "price": "299",
+    //   "duration": "30 Days"
+    // },
+    // {
+    //   "name": "Premium Plan",
+    //   "description": "Under Development",
+    //   "price": "N/A",
+    //   "duration": "N/A Days"
+    // }
   ].obs;
 
-  void onPackageSelected(Map<String, dynamic> element) {
+  fetchPackages() async {
+    packages.value = [];
+    await _sliderRepository.fetchPackages().then((value) {
+      if (value.status == Status.COMPLETED) {
+        packages.value = value.data;
+      }
+    });
+  }
+
+  void onPackageSelected(Package selectedPackage) {
     // Get.toNamed(Routes.TEMPLATES);
     RazorpayPG.getInstance.razorpayPayment("hhwvfwvfwyy1546aqafa");
+  }
+
+  // MY ENQUIRES
+  RxList<ContactedSeller> myEnquires = <ContactedSeller>[].obs;
+  fetchMyEnquires() async {
+    // isLoading.value = true;
+    await _userRepository.fetchMyEnquires().then((value) {
+      isLoading.value = false;
+      if (value.status == Status.COMPLETED) {
+        myEnquires.value = value.data;
+        myEnquires.refresh();
+      }
+    });
   }
 }

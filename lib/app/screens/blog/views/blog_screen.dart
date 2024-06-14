@@ -38,7 +38,7 @@ class BlogScreen extends GetView<BlogController> {
               ),
             ),
             title: TextView(
-              text: controller.category.value.catName ?? "",
+              text: controller.category.value.name ?? "",
               color: ColorPallete.secondary,
               fontSize: 18,
               weight: FontWeight.bold,
