@@ -2,7 +2,7 @@ import 'translation_keys.dart' as translation;
 
 class En {
   Map<String, String> get messages => {
-        translation.appName: "South Canara",
+        translation.appName: "South Canara Agro Mart",
         translation.eng: "English",
         translation.mar: "Marathi",
 

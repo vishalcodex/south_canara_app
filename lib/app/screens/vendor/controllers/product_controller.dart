@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:south_canara/app/repositories/category_repository.dart';
 
@@ -22,6 +23,8 @@ class ProductController extends GetxController {
 
     fetchProducts();
   }
+
+  GlobalKey<FormState> addProductKey = GlobalKey<FormState>();
 
   //CATEGORY
   RxList<Category> categories = <Category>[].obs;
@@ -84,31 +87,40 @@ class ProductController extends GetxController {
 
   RxBool isLoading = false.obs;
   void addUpdateProduct(bool isAdd) {
-    isLoading.value = false;
-    _vendorRepository.addUpdateProduct(selectedProduct.value).then((value) {
-      isLoading.value = false;
-      if (value.status == Status.COMPLETED) {
-        Future.delayed(const Duration(seconds: 5), () {
-          Get.back();
-          fetchProducts();
-        });
-        Get.showSnackbar(
-          GetSnackBar(
-            duration: const Duration(seconds: 3),
-            backgroundColor: ColorPallete.primary,
-            message: "Product ${isAdd ? "Created" : "Updated"} Successfully !",
-          ),
-        );
-      } else {
-        Get.showSnackbar(
-          GetSnackBar(
-            duration: const Duration(seconds: 3),
-            backgroundColor: ColorPallete.red,
-            message: value.message,
-            // message: "Error ${isAdd ? "Creating" : "Updating"} Product !",
-          ),
-        );
-      }
-    });
+    if (addProductKey.currentState!.validate()) {
+      isLoading.value = true;
+      _vendorRepository.addUpdateProduct(selectedProduct.value).then((value) {
+        isLoading.value = false;
+        if (value.status == Status.COMPLETED) {
+          selectedProduct.value = Product();
+          selectedProduct.refresh();
+          Get.showSnackbar(
+            GetSnackBar(
+              duration: const Duration(seconds: 2),
+              backgroundColor: ColorPallete.primary,
+              message:
+                  "Product ${isAdd ? "Created" : "Updated"} Successfully !",
+              snackbarStatus: (status) {
+                if (status == SnackbarStatus.CLOSED) {
+                  Future.delayed(const Duration(seconds: 1), () {
+                    Get.back();
+                    fetchProducts();
+                  });
+                }
+              },
+            ),
+          );
+        } else {
+          Get.showSnackbar(
+            GetSnackBar(
+              duration: const Duration(seconds: 3),
+              backgroundColor: ColorPallete.red,
+              message: value.message,
+              // message: "Error ${isAdd ? "Creating" : "Updating"} Product !",
+            ),
+          );
+        }
+      });
+    }
   }
 }

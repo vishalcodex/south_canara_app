@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:south_canara/app/repositories/vendor_repository.dart';
 
 import '../../../models/api_response.dart';
 import '../../../models/blog_model.dart';
 import '../../../models/contacted_seller_model.dart';
+import '../../../models/notification_modle.dart';
 import '../../../models/package_model.dart';
 import '../../../models/slide_model.dart';
 import '../../../models/user_model.dart';
@@ -17,6 +19,7 @@ import '../../../services/auth_service.dart';
 import '../../../services/razorpay_gateway_service.dart';
 import '../../category/controllers/category_controller.dart';
 import '../../category/views/categories_screen.dart';
+import '../../vendor/controllers/vendor_controller.dart';
 import '../../vendor/views/vendor_screen.dart';
 import '../views/home_view.dart';
 import '../../../../../../../common/transalations/translation_keys.dart'
@@ -42,6 +45,7 @@ class HomeController extends GetxController {
   late var scaffoldKey = GlobalKey<ScaffoldState>();
   late UserRepository _userRepository;
   late SliderRepository _sliderRepository;
+  late VendorRepository _vendorRepository;
 
   HomeController() {
     // Get.find<AuthService>().user.listen((updatedUser) {
@@ -50,6 +54,7 @@ class HomeController extends GetxController {
 
     _userRepository = UserRepository();
     _sliderRepository = SliderRepository();
+    _vendorRepository = VendorRepository();
   }
 
   RxBool searchedClicked = false.obs;
@@ -71,6 +76,8 @@ class HomeController extends GetxController {
     setTabIndex.listen((p0) {
       if (p0 == 1) {
         Get.find<CategoryController>().showSuppliers.value = false;
+      } else if (p0 == 3) {
+        Get.find<VendorController>().fetchData();
       }
     });
 
@@ -160,6 +167,7 @@ class HomeController extends GetxController {
     fetchSliders(refresh ?? true);
     Get.find<CategoryController>().fetchCategories();
     fetchBlogs();
+    fetchAdminMessages();
   }
 
   late Timer sliderTimer;
@@ -201,14 +209,10 @@ class HomeController extends GetxController {
 
   fetchBlogs() async {
     blogs.value = [];
-    Future.delayed(const Duration(seconds: 3), () {
-      blogs.value = [
-        Blog(blogName: "Blog 1", blogDetails: "Blog Details 1"),
-        Blog(blogName: "Blog 2", blogDetails: "Blog Details 2"),
-        Blog(blogName: "Blog 3", blogDetails: "Blog Details 3"),
-        Blog(blogName: "Blog 4", blogDetails: "Blog Details 4"),
-        Blog(blogName: "Blog 5", blogDetails: "Blog Details 5"),
-      ];
+    _sliderRepository.fetchBlogs().then((value) {
+      if (value.status == Status.COMPLETED) {
+        blogs.value = value.data;
+      }
     });
   }
 
@@ -276,6 +280,21 @@ class HomeController extends GetxController {
       if (value.status == Status.COMPLETED) {
         myEnquires.value = value.data;
         myEnquires.refresh();
+      }
+    });
+  }
+
+  // Admin Messages
+  RxList<Notify> adminMessages = <Notify>[].obs;
+  fetchAdminMessages() {
+    isLoading.value = true;
+    adminMessages.value = [];
+    _vendorRepository.fetchAdminMessages().then((value) {
+      isLoading.value = false;
+      if (value.status == Status.COMPLETED) {
+        adminMessages.value = value.data;
+      } else {
+        adminMessages.value = [];
       }
     });
   }

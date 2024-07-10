@@ -61,7 +61,7 @@ class ForgotPasswordScreen extends GetView<AuthController> {
                                   children: [
                                     const Center(
                                       child: TextView(
-                                        text: "Social Cardify",
+                                        text: "South Canara Agro Mart",
                                         fontSize: 22,
                                         weight: FontWeight.w700,
                                         color: ColorPallete.secondary,

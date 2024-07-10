@@ -8,6 +8,7 @@ import '../../../components/ui/my_list_view.dart';
 import '../../../components/ui/rounded_container.dart';
 import '../../../components/ui/text_view.dart';
 import '../../../models/slide_model.dart';
+import '../../../providers/api_endpoints.dart';
 import '../../../routes/app_routes.dart';
 import '../../category/widgets/category_view.dart';
 import '../controllers/home_controller.dart';
@@ -70,7 +71,7 @@ class HomeView extends GetView<HomeController> {
                                 fontSize: 16,
                                 weight: FontWeight.bold,
                               ),
-                              _buildCategories(controller, fem, context),
+                              _buildBlogs(controller, fem, context),
                               SizedBox(
                                 height: 10 * fem,
                               ),
@@ -220,8 +221,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  _buildCategories(
-      HomeController controller, double fem, BuildContext context) {
+  _buildBlogs(HomeController controller, double fem, BuildContext context) {
     return InkWell(
       onTap: () {
         // Get.toNamed(Routes.BLOG_DETAILS,
@@ -285,116 +285,93 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ),
                 )
-              : Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10 * fem),
-                  child: RoundedContainer(
-                    height: 185 * fem,
-                    // color: ColorPallete.grey,
-                    radius: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: MyListView(
-                            isRow: true,
-                            scroll: true,
-                            children: controller.blogs
-                                .map(
-                                  (blog) => Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 7.5 * fem, vertical: 15),
-                                    child: Container(
-                                      decoration: BoxDecoration(boxShadow: [
-                                        BoxShadow(
-                                            color: ColorPallete.grey
-                                                .withOpacity(0.25),
-                                            blurRadius: 15,
-                                            spreadRadius: 5)
-                                      ]),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Get.toNamed(Routes.BLOG_DETAILS,
-                                              arguments: {"blog": blog});
-                                        },
-                                        child: RoundedContainer(
-                                          radius: 10,
-                                          clip: Clip.antiAlias,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2 *
-                                              fem,
-                                          color: ColorPallete.theme,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5.0),
-                                            child: MyListView(
-                                              children: [
-                                                RoundedContainer(
-                                                  radius: 10,
-                                                  height: 100 * fem,
-                                                  color: ColorPallete.grey
-                                                      .withOpacity(0.25),
+              : RoundedContainer(
+                  height: 185 * fem,
+                  // color: ColorPallete.grey,
+                  radius: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: MyListView(
+                          isRow: true,
+                          scroll: true,
+                          children: controller.blogs
+                              .map(
+                                (blog) => Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 7.5 * fem, vertical: 15),
+                                  child: Container(
+                                    decoration: BoxDecoration(boxShadow: [
+                                      BoxShadow(
+                                          color: ColorPallete.grey
+                                              .withOpacity(0.25),
+                                          blurRadius: 15,
+                                          spreadRadius: 5)
+                                    ]),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Get.toNamed(Routes.BLOG_DETAILS,
+                                            arguments: {"blog": blog});
+                                      },
+                                      child: RoundedContainer(
+                                        radius: 10,
+                                        clip: Clip.antiAlias,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2 *
+                                                fem,
+                                        color: ColorPallete.theme,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: MyListView(
+                                            children: [
+                                              RoundedContainer(
+                                                radius: 10,
+                                                height: 100 * fem,
+                                                clip:
+                                                    Clip.antiAliasWithSaveLayer,
+                                                color: ColorPallete.grey
+                                                    .withOpacity(0.25),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: Urls.getImageUrl(
+                                                      blog.image ?? ""),
+                                                  height: double.infinity,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.fill,
+                                                  errorWidget:
+                                                      (context, url, error) {
+                                                    return Container();
+                                                  },
                                                 ),
-                                                const SizedBox(
-                                                  height: 5,
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5.0),
+                                                child: TextView(
+                                                  text: blog.title.toString(),
+                                                  fontSize: 14,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxlines: 3,
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 5.0),
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Expanded(
-                                                            child: TextView(
-                                                              text: blog
-                                                                  .blogName
-                                                                  .toString(),
-                                                              fontSize: 14,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              maxlines: 1,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          TextView(
-                                                            text: blog
-                                                                .blogDetails
-                                                                .toString(),
-                                                            fontSize: 12,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            maxlines: 1,
-                                                            color: ColorPallete
-                                                                .secondary,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
+                                              )
+                                            ],
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                )
-                                .toList(),
-                          ),
+                                ),
+                              )
+                              .toList(),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
         ],

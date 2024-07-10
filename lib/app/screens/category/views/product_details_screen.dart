@@ -226,7 +226,11 @@ class ProductSupplierDetailsScreen extends GetView<CategoryController> {
                           EntryWidget(
                             title: "Minimum Order Quantity",
                             value:
-                                "${controller.selectedSupplier.value.productMoq} ${controller.selectedSupplier.value.productUnit}",
+                                "${controller.selectedSupplier.value.productMoq}",
+                          ),
+                          const EntryWidget(
+                            title: "Product Unit",
+                            value: "Kgs",
                           ),
                           EntryWidget(
                             title: "Product Price",

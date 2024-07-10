@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../common/color_pallete.dart';
 import '../../../../components/ui/my_list_view.dart';
@@ -140,6 +141,15 @@ class EnquiresScreen extends GetView<VendorController> {
                                                         title: "Location",
                                                         value:
                                                             enquiry.location!,
+                                                      ),
+                                                      EntryWidget(
+                                                        title: "Date & Time",
+                                                        value: DateFormat(
+                                                                "dd MMM yyyy, hh:mm a")
+                                                            .format(DateFormat(
+                                                                    "yyyy-MM-ddThh:mm:ss")
+                                                                .parse(enquiry
+                                                                    .createdAt!)),
                                                       ),
                                                       // EntryWidget(
                                                       //   title: "Date",

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:south_canara/app/models/vendor.dart';
-import 'package:south_canara/app/repositories/vendor_repository.dart';
-import 'package:south_canara/common/color_pallete.dart';
 
+import '../../../../common/color_pallete.dart';
 import '../../../models/api_response.dart';
 import '../../../models/city_model.dart';
 import '../../../models/country_model.dart';
 import '../../../models/country_state_model.dart';
 import '../../../models/enquiry_model.dart';
-import '../../../models/notification_modle.dart';
 import '../../../models/ticket_model.dart';
+import '../../../models/vendor.dart';
 import '../../../models/vendor_tab_model.dart';
+import '../../../repositories/vendor_repository.dart';
 import '../../../routes/app_routes.dart';
+import '../../home/controllers/home_controller.dart';
 
 class VendorController extends GetxController {
   late VendorRepository _vendorRepository;
@@ -50,7 +50,7 @@ class VendorController extends GetxController {
           Get.toNamed(Routes.SUBSCRIPTION);
           break;
         case "Admin Messages":
-          Get.toNamed(Routes.ADMIN_MESSAGES);
+          Get.find<HomeController>().setTabIndex.value = 2;
           break;
         default:
       }
@@ -71,7 +71,7 @@ class VendorController extends GetxController {
     fetchVendorDetails();
     fetchEnquires();
     fetchTickets();
-    fetchAdminMessages();
+    // fetchAdminMessages();
   }
 
   RxBool isLoading = false.obs;
@@ -236,21 +236,6 @@ class VendorController extends GetxController {
             message: "Error Updating Details !",
           ),
         );
-      }
-    });
-  }
-
-  // Admin Messages
-  RxList<Notify> adminMessages = <Notify>[].obs;
-  fetchAdminMessages() {
-    isLoading.value = true;
-    adminMessages.value = [];
-    _vendorRepository.fetchAdminMessages().then((value) {
-      isLoading.value = false;
-      if (value.status == Status.COMPLETED) {
-        adminMessages.value = value.data;
-      } else {
-        adminMessages.value = [];
       }
     });
   }

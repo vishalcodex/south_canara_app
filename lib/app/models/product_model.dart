@@ -11,6 +11,7 @@ class Product {
   String? productOrigin;
   String? packagingType;
   int? vendorId;
+  bool? status;
   String? createdAt;
   String? updatedAt;
 
@@ -27,6 +28,7 @@ class Product {
       this.productOrigin,
       this.packagingType,
       this.vendorId,
+      this.status,
       this.createdAt,
       this.updatedAt});
 
@@ -43,6 +45,7 @@ class Product {
     productOrigin = json['product_origin'];
     packagingType = json['packaging_type'];
     vendorId = json['vendor_id'];
+    status = json['status'] == 1;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -61,6 +64,7 @@ class Product {
     data['product_origin'] = this.productOrigin;
     data['packaging_type'] = this.packagingType;
     data['vendor_id'] = this.vendorId;
+    data['status'] = (status ?? true) ? 1 : 0;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

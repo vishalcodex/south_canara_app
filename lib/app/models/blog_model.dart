@@ -1,49 +1,36 @@
 class Blog {
-  String? blogId;
-  String? blogName;
-  String? filename;
-  String? catId;
-  String? blogDetails;
-  String? urltitle;
-  String? shortDescription;
-  String? srno;
-  String? catName;
+  int? id;
+  String? title;
+  String? image;
+  String? description;
+  String? createdAt;
+  String? updatedAt;
 
   Blog(
-      {this.blogId,
-      this.blogName,
-      this.filename,
-      this.catId,
-      this.blogDetails,
-      this.urltitle,
-      this.shortDescription,
-      this.srno,
-      this.catName});
+      {this.id,
+      this.title,
+      this.image,
+      this.description,
+      this.createdAt,
+      this.updatedAt});
 
   Blog.fromJson(Map<String, dynamic> json) {
-    blogId = json['id'].toString();
-    blogName = json['title'];
-    // filename = Urls.baseUrl + json['filename'];
-    filename = json['image'];
-    catId = json['news_category_id'].toString();
-    blogDetails = json['description'];
-    urltitle = json['urltitle'];
-    shortDescription = json['description'];
-    srno = json['srno'];
-    catName = json['cat_name'];
+    id = json['id'];
+    title = json['title'];
+    image = json['image'];
+    description = json['description'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['blog_id'] = this.blogId;
-    data['blog_name'] = this.blogName;
-    data['filename'] = this.filename;
-    data['cat_id'] = this.catId;
-    data['blog_details'] = this.blogDetails;
-    data['urltitle'] = this.urltitle;
-    data['short_description'] = this.shortDescription;
-    data['srno'] = this.srno;
-    data['cat_name'] = this.catName;
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['image'] = this.image;
+    data['description'] = this.description;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

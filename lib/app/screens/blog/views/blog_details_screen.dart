@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import '../../../../common/color_pallete.dart';
 import '../../../components/ui/my_list_view.dart';
 import '../../../components/ui/rounded_container.dart';
 import '../../../components/ui/text_view.dart';
 import '../../../models/blog_model.dart';
+import '../../../providers/api_endpoints.dart';
 
 // ignore: must_be_immutable
 class BlogDetailsScreen extends StatelessWidget {
@@ -19,24 +21,24 @@ class BlogDetailsScreen extends StatelessWidget {
     Blog blog = Get.arguments?["blog"];
     return Scaffold(
       extendBody: true,
-      backgroundColor: ColorPallete.theme,
+      // backgroundColor: ColorPallete.theme,
       body: SafeArea(
         child: Scaffold(
           backgroundColor: ColorPallete.theme,
           appBar: AppBar(
-            backgroundColor: ColorPallete.theme,
+            backgroundColor: ColorPallete.primary,
             leading: InkWell(
               onTap: () {
                 Get.back();
               },
               child: const Icon(
                 Icons.arrow_back_ios_new,
-                color: ColorPallete.primary,
+                color: ColorPallete.theme,
               ),
             ),
             title: const TextView(
               text: "Blog Details", // translations.blogDetails.tr,
-              color: ColorPallete.secondary,
+              color: ColorPallete.theme,
               fontSize: 18,
               weight: FontWeight.bold,
             ),
@@ -47,253 +49,68 @@ class BlogDetailsScreen extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () {
-                      // controller.homeRefresh();
-                      return Future.value();
-                    },
-                    child: MyListView(
-                      scroll: true,
-                      children: [
-                        blog.blogDetails == null
-                            ? Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15.0 * fem),
-                                child: MyListView(
-                                  children: [
-                                    SizedBox(
-                                      height: 10 * fem,
-                                    ),
-                                    const RoundedContainer(
-                                      radius: 15,
-                                      height: 175,
-                                      clip: Clip.antiAliasWithSaveLayer,
-                                      color: ColorPallete.disableGrey,
-                                    ),
-                                    SizedBox(
-                                      height: 20 * fem,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: TextView(
-                                            text: blog.blogName!,
-                                            color: ColorPallete.grey,
-                                            fontSize: 16,
-                                            weight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10.0 * fem),
-                                          child: const TextView(
-                                            text: "Price",
-                                            color: ColorPallete.grey,
-                                            fontSize: 14,
-                                            weight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10 * fem,
-                                    ),
-                                    TextView(
-                                      text: "Company Name",
-                                      color: ColorPallete.grey.withOpacity(0.5),
-                                      fontSize: 16,
-                                      weight: FontWeight.bold,
-                                    ),
-
-                                    SizedBox(
-                                      height: 10 * fem,
-                                    ),
-                                    MyListView(
-                                      children: [
-                                        TextView(
-                                          text: "Product Info",
-                                          color: ColorPallete.grey
-                                              .withOpacity(0.5),
-                                          fontSize: 14,
-                                          weight: FontWeight.bold,
-                                        ),
-                                        SizedBox(
-                                          height: 10 * fem,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Row(
-                                                children: [
-                                                  RoundedContainer(
-                                                    radius: 5,
-                                                    height: 10,
-                                                    width: 100,
-                                                    color: ColorPallete.grey
-                                                        .withOpacity(0.5),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Row(
-                                                children: [
-                                                  RoundedContainer(
-                                                    radius: 5,
-                                                    height: 10,
-                                                    width: 100,
-                                                    color: ColorPallete.grey
-                                                        .withOpacity(0.5),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10 * fem,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Row(
-                                                children: [
-                                                  RoundedContainer(
-                                                    radius: 5,
-                                                    height: 10,
-                                                    width: 100,
-                                                    color: ColorPallete.grey
-                                                        .withOpacity(0.5),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Row(
-                                                children: [
-                                                  RoundedContainer(
-                                                    radius: 5,
-                                                    height: 10,
-                                                    width: 100,
-                                                    color: ColorPallete.grey
-                                                        .withOpacity(0.5),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10 * fem,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Row(
-                                                children: [
-                                                  RoundedContainer(
-                                                    radius: 5,
-                                                    height: 10,
-                                                    width: 100,
-                                                    color: ColorPallete.grey
-                                                        .withOpacity(0.5),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Row(
-                                                children: [
-                                                  RoundedContainer(
-                                                    radius: 5,
-                                                    height: 10,
-                                                    width: 100,
-                                                    color: ColorPallete.grey
-                                                        .withOpacity(0.5),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    // Html(
-                                    //   data: blog.blogDetails!,
-                                    //   style: {
-                                    //     "body": Style(color: ColorPallete.secondary)
-                                    //   },
-                                    // ),
-                                    SizedBox(
-                                      height: 10 * fem,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15.0 * fem),
-                                child: MyListView(
-                                  children: [
-                                    SizedBox(
-                                      height: 10 * fem,
-                                    ),
-                                    RoundedContainer(
-                                      radius: 15,
-                                      height: 175,
-                                      clip: Clip.antiAliasWithSaveLayer,
-                                      color: ColorPallete.disableGrey,
-                                      child: CachedNetworkImage(
-                                        imageUrl: blog.filename ?? "",
-                                        height: double.infinity,
-                                        width: double.infinity,
-                                        fit: BoxFit.fill,
-                                        errorWidget: (context, url, error) {
-                                          return Container();
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20 * fem,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: TextView(
-                                            text:
-                                                blog.blogName ?? "Constitution",
-                                            color: ColorPallete.secondary,
-                                            fontSize: 16,
-                                            weight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-
-                                    SizedBox(
-                                      height: 10 * fem,
-                                    ),
-                                    TextView(
-                                      text: blog.blogDetails ??
-                                          blog.shortDescription ??
-                                          "",
-                                      color: ColorPallete.secondary,
-                                      fontSize: 14,
-                                    ),
-                                    // Html(
-                                    //   data: blog.blogDetails!,
-                                    //   style: {
-                                    //     "body": Style(color: ColorPallete.secondary)
-                                    //   },
-                                    // ),
-                                    SizedBox(
-                                      height: 10 * fem,
-                                    ),
-                                  ],
-                                ),
+                  child: MyListView(
+                    scroll: true,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.0 * fem),
+                        child: MyListView(
+                          children: [
+                            SizedBox(
+                              height: 10 * fem,
+                            ),
+                            RoundedContainer(
+                              radius: 15,
+                              height: 175,
+                              clip: Clip.antiAliasWithSaveLayer,
+                              color: ColorPallete.disableGrey,
+                              child: CachedNetworkImage(
+                                imageUrl: Urls.getImageUrl(blog.image ?? ""),
+                                height: double.infinity,
+                                width: double.infinity,
+                                fit: BoxFit.fill,
+                                errorWidget: (context, url, error) {
+                                  return Container();
+                                },
                               ),
-                      ],
-                    ),
+                            ),
+                            SizedBox(
+                              height: 20 * fem,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextView(
+                                    text: blog.title ?? "",
+                                    color: ColorPallete.secondary,
+                                    fontSize: 16,
+                                    weight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(
+                              height: 10 * fem,
+                            ),
+                            // TextView(
+                            //   text: blog.description ?? "",
+                            //   color: ColorPallete.secondary,
+                            //   fontSize: 14,
+                            // ),
+                            Html(
+                              data: blog.description!,
+                              style: {
+                                "body": Style(color: ColorPallete.secondary)
+                              },
+                            ),
+                            SizedBox(
+                              height: 10 * fem,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 // Container(

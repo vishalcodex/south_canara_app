@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../models/blog_model.dart';
 import '../models/slide_model.dart';
 import '../models/api_response.dart';
 import '../models/package_model.dart';
@@ -36,6 +37,27 @@ class SliderRepository {
         value.data = [];
       }
 
+      return value;
+    });
+  }
+
+  Future<ApiResponse> fetchSettings() async {
+    return await apiProvider.makeAPICall("GET", "settings", {}).then((value) {
+      if (value.status == Status.COMPLETED) {
+        // value.data = Setting.fromJson(value.data["setting"]);
+      }
+      return value;
+    });
+  }
+
+  Future<ApiResponse> fetchBlogs() async {
+    return await apiProvider.makeAPICall("GET", "blogs", {}).then((value) {
+      List<Blog> blogs = [];
+      if (value.status == Status.COMPLETED) {
+        blogs =
+            (value.data["blogs"] as List).map((e) => Blog.fromJson(e)).toList();
+      }
+      value.data = blogs;
       return value;
     });
   }

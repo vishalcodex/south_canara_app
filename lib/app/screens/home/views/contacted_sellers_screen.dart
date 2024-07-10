@@ -135,12 +135,12 @@ class EnquiryWidget extends StatelessWidget {
               child: MyListView(
                 children: [
                   EntryWidget(
-                    title: "For product",
-                    value: seller.productId.toString(),
-                  ),
-                  EntryWidget(
                     title: "Seller",
                     value: seller.vendor!.companyName.toString(),
+                  ),
+                  EntryWidget(
+                    title: "For product",
+                    value: seller.product!.productName.toString(),
                   ),
                   EntryWidget(
                     title: "Enquired Quantity",

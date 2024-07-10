@@ -3,6 +3,10 @@ import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../app/components/ui/rounded_container.dart';
+import '../app/components/ui/text_view.dart';
+import 'color_pallete.dart';
+
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
@@ -86,3 +90,58 @@ String getDateTime(DateTime date) {
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
   return formatter.format(date);
 }
+
+bool compareVersion(
+    {required String appVersion, required String latestVersion}) {
+  int v1Number = getExtendedVersionNumber(appVersion);
+  int v2Number = getExtendedVersionNumber(latestVersion);
+  return (v1Number < v2Number);
+}
+
+int getExtendedVersionNumber(String version) {
+  List versionCells = version.split('.');
+  versionCells = versionCells.map((i) => int.parse(i)).toList();
+  return versionCells[0] * 100000 + versionCells[1] * 1000 + versionCells[2];
+}
+
+Future<bool> closeAppAlert(BuildContext context) async => await showDialog(
+      context: context,
+      builder: (c) => AlertDialog(
+        surfaceTintColor: ColorPallete.theme,
+        title: const TextView(
+          text: 'Warning',
+          fontSize: 16,
+          color: ColorPallete.red,
+          weight: FontWeight.bold,
+        ),
+        content: const Padding(
+          padding: EdgeInsets.only(bottom: 20.0),
+          child: TextView(
+            text: 'Do you really want to exit ?',
+            fontSize: 14,
+            color: ColorPallete.secondary,
+          ),
+        ),
+        actions: [
+          RoundedContainer(
+            radius: 0,
+            child: const TextView(
+              text: "YES",
+              fontSize: 14,
+            ),
+            onPressed: () => Navigator.pop(c, true),
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          RoundedContainer(
+            radius: 0,
+            child: const TextView(
+              text: "NO",
+              fontSize: 14,
+            ),
+            onPressed: () => Navigator.pop(c, false),
+          ),
+        ],
+      ),
+    );
