@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../common/color_pallete.dart';
 import '../routes/app_routes.dart';
 import 'ui/my_list_view.dart';
+import 'ui/rounded_container.dart';
 import 'ui/text_view.dart';
 import '../../common/transalations/translation_keys.dart' as translations;
 
@@ -26,35 +30,37 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.light.copyWith(
+        systemNavigationBarColor: ColorPallete.primary,
+      ),
+    );
     Future.delayed(const Duration(seconds: 3), () {
-      // if (Get.find<AuthService>().token == null ||
-      //     Get.find<AuthService>().token == "") {
-      //   setState(() {
-      //     showAuthOptions = true;
-      //     showLangOptions = true;
-      //   });
-      // } else {
-      // }
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle.light.copyWith(
-          systemNavigationBarColor: ColorPallete.primary,
-        ),
-      );
       Get.offAndToNamed(Routes.HOME);
     });
+
+    // Future.delayed(const Duration(seconds: 1), () async {
+    //   await SliderRepository().fetchSettings().then((value) async {
+    //     if (value.status == Status.COMPLETED) {
+    //       Setting settings = value.data;
+    //       PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    //       var needUpdate = compareVersion(
+    //           appVersion: packageInfo.version,
+    //           latestVersion: settings.appVersion!);
+    //       if (needUpdate) {
+    //         showUpdateDialog(context);
+    //       } else {
+    //         Get.offAndToNamed(Routes.HOME);
+    //       }
+    //     }
+    //   });
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
-    // Future.delayed(const Duration(seconds: 6), () {
-    //   if (showAuthOptions && showLangOptions) {
-    //     // showAuthOptions = false;
-    //     showLangOptions = false;
-    //     showLanguagePopUp(context);
-    //   }
-    // });
 
     return Scaffold(
       backgroundColor: ColorPallete.theme,
@@ -74,93 +80,9 @@ class _SplashScreenState extends State<SplashScreen> {
                       // color: Colors.red,
                     ),
                   ),
-                  // SizedBox(
-                  //   height: 25 * fem,
-                  // ),
-
-                  // const Center(
-                  //   child: TextView(
-                  //     text: "South Canara",
-                  //     color: ColorPallete.secondary,
-                  //     fontSize: 24,
-                  //     weight: FontWeight.bold,
-                  //     alignment: TextAlign.center,
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 10 * fem,
-                  // ),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(horizontal: 20.0 * fem),
-                  //   child: AnimatedContainer(
-                  //     height: showAuthOptions ? 110 * fem : 0,
-                  //     duration: const Duration(seconds: 2),
-                  //     child: MyListView(
-                  //       children: [
-                  //         InkWell(
-                  //           onTap: () {
-                  //             Get.offAndToNamed(
-                  //               Routes.LOGIN,
-                  //             );
-                  //           },
-                  //           child: RoundedContainer(
-                  //             radius: 10,
-                  //             height: 50,
-                  //             color: ColorPallete.primary,
-                  //             child: Center(
-                  //               child: Padding(
-                  //                 padding: EdgeInsets.symmetric(
-                  //                     vertical: 15.0 * fem),
-                  //                 child: TextView(
-                  //                   text: translations.alreadyAMember.tr,
-                  //                   color: ColorPallete.theme,
-                  //                   fontSize: 14,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //         SizedBox(
-                  //           height: 10 * fem,
-                  //         ),
-                  //         InkWell(
-                  //           onTap: () {
-                  //             Get.offAndToNamed(Routes.AUTH,
-                  //                 arguments: {"toLogin": false});
-                  //           },
-                  //           child: RoundedContainer(
-                  //             radius: 10,
-                  //             height: 50,
-                  //             color: ColorPallete.primary,
-                  //             child: Center(
-                  //               child: Padding(
-                  //                 padding: EdgeInsets.symmetric(
-                  //                     vertical: 15.0 * fem),
-                  //                 child: TextView(
-                  //                   text: translations.registerAsMember.tr,
-                  //                   color: ColorPallete.theme,
-                  //                   fontSize: 14,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         )
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 10 * fem,
-                  // ),
                 ],
               ),
             ),
-            // Image.asset(
-            //   "assets/ui/splash.jpg",
-            //   height: MediaQuery.of(context).size.height * 0.25,
-            //   width: double.infinity,
-            //   fit: BoxFit.fill,
-            // )
           ],
         ),
       ),
@@ -261,6 +183,83 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 )
               ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showUpdateDialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      useSafeArea: true,
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: RoundedContainer(
+              radius: 0,
+              child: MyListView(
+                children: [
+                  const TextView(
+                    text: "Update Available !",
+                    color: ColorPallete.primary,
+                    fontSize: 16,
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  const TextView(
+                    text:
+                        "New update available on Play Store. Please Update the app.",
+                    color: ColorPallete.grey,
+                    fontSize: 14,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          if (Platform.isAndroid || Platform.isIOS) {
+                            final appId = Platform.isAndroid
+                                ? 'com.codex.southcanara'
+                                : 'YOUR_IOS_APP_ID';
+                            final url = Uri.parse(
+                              Platform.isAndroid
+                                  ? "market://details?id=$appId"
+                                  : "https://apps.apple.com/app/id$appId",
+                            );
+                            launchUrl(
+                              url,
+                              mode: LaunchMode.externalApplication,
+                            );
+                          }
+                        },
+                        child: const RoundedContainer(
+                          radius: 10,
+                          color: ColorPallete.primary,
+                          child: Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: TextView(
+                              text: "Update",
+                              color: ColorPallete.theme,
+                              fontSize: 13,
+                              weight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         );

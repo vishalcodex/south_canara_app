@@ -1,0 +1,6 @@
+package com.codex.southcanara
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}

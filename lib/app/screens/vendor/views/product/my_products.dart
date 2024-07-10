@@ -309,7 +309,7 @@ class MyProductsScreen extends GetView<ProductController> {
                   _getEntry("Price", product.productPrice.toString()),
                   _getEntry("Origin", product.productOrigin.toString()),
                   _getEntry("MOQ", product.productMoq.toString()),
-                  _getEntry("Unit", product.productUnit.toString()),
+                  _getEntry("Unit", "Kgs"),
                   _getEntry("Packaging", product.packagingType.toString()),
                 ],
               ),

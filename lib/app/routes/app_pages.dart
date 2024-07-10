@@ -31,7 +31,6 @@ import '../screens/home/views/dashboard_screen.dart';
 import '../screens/vendor/binding/vendor_binding.dart';
 import '../screens/vendor/views/enquires/enquires.dart';
 import '../screens/vendor/views/enquires/buyer_details_screen.dart';
-import '../screens/vendor/views/messages/admin_messages.dart';
 import '../screens/vendor/views/product/add_edit_product.dart';
 import '../screens/vendor/views/product/my_products.dart';
 import '../screens/vendor/views/profile/my_profile.dart';
@@ -226,12 +225,7 @@ class AppPages {
       binding: VendorBinding(),
       // middlewares: [OnBoardingMiddleWare()],
     ),
-    GetPage(
-      name: Routes.ADMIN_MESSAGES,
-      page: () => AdminMessagesScreen(),
-      binding: VendorBinding(),
-      // middlewares: [OnBoardingMiddleWare()],
-    ),
+
     GetPage(
       name: Routes.SUBSCRIPTION,
       page: () => SubscriptionScreen(),

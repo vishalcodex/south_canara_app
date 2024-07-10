@@ -1,3 +1,4 @@
+import 'product_model.dart';
 import 'vendor.dart';
 
 class ContactedSeller {
@@ -11,6 +12,7 @@ class ContactedSeller {
   String? createdAt;
   String? updatedAt;
   Vendor? vendor;
+  Product? product;
 
   ContactedSeller(
       {this.id,
@@ -36,6 +38,8 @@ class ContactedSeller {
     updatedAt = json['updated_at'];
     vendor =
         json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
+    product =
+        json['product'] != null ? new Product.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +55,9 @@ class ContactedSeller {
     data['updated_at'] = this.updatedAt;
     if (this.vendor != null) {
       data['vendor'] = this.vendor!.toJson();
+    }
+    if (this.product != null) {
+      data['product'] = this.product!.toJson();
     }
     return data;
   }

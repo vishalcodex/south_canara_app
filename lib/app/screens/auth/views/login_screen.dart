@@ -157,42 +157,112 @@ class LoginScreen extends GetView<AuthController> {
                                           // const SizedBox(
                                           //   height: 15,
                                           // ),
-                                          TextFormField(
-                                            keyboardType:
-                                                TextInputType.emailAddress,
-                                            cursorColor: ColorPallete.secondary,
-                                            decoration:
-                                                InputDecoration().copyWith(
-                                              labelText: translations.email.tr,
-                                              labelStyle: const TextStyle(
-                                                  fontSize: 16,
-                                                  color:
-                                                      ColorPallete.secondary),
-                                              enabledBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color:
-                                                        ColorPallete.secondary),
-                                              ),
-                                              focusedBorder:
-                                                  const OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color:
-                                                        ColorPallete.secondary),
-                                              ),
+                                          controller.loginViaEmail.value
+                                              ? TextFormField(
+                                                  keyboardType: TextInputType
+                                                      .emailAddress,
+                                                  key: UniqueKey(),
+                                                  initialValue:
+                                                      controller.creds["email"],
+                                                  cursorColor:
+                                                      ColorPallete.secondary,
+                                                  decoration: InputDecoration()
+                                                      .copyWith(
+                                                    labelText:
+                                                        translations.email.tr,
+                                                    labelStyle: const TextStyle(
+                                                        fontSize: 16,
+                                                        color: ColorPallete
+                                                            .secondary),
+                                                    enabledBorder:
+                                                        const OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: ColorPallete
+                                                              .secondary),
+                                                    ),
+                                                    focusedBorder:
+                                                        const OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: ColorPallete
+                                                              .secondary),
+                                                    ),
+                                                  ),
+                                                  validator: (value) {
+                                                    if (value!.isEmpty) {
+                                                      return 'Please enter text';
+                                                    }
+                                                    if (value.length < 6) {
+                                                      return 'Password should be at least 6 characters long';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  onChanged: (value) {
+                                                    controller.creds["email"] =
+                                                        value;
+                                                  },
+                                                )
+                                              : TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.phone,
+                                                  initialValue: controller
+                                                      .creds["mobile"],
+                                                  key: UniqueKey(),
+                                                  cursorColor:
+                                                      ColorPallete.secondary,
+                                                  decoration: InputDecoration()
+                                                      .copyWith(
+                                                    labelText: translations
+                                                        .phoneNumber.tr,
+                                                    labelStyle: const TextStyle(
+                                                        fontSize: 16,
+                                                        color: ColorPallete
+                                                            .secondary),
+                                                    enabledBorder:
+                                                        const OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: ColorPallete
+                                                              .secondary),
+                                                    ),
+                                                    focusedBorder:
+                                                        const OutlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: ColorPallete
+                                                              .secondary),
+                                                    ),
+                                                  ),
+                                                  validator: (value) {
+                                                    if (value!.isEmpty) {
+                                                      return 'Please enter text';
+                                                    }
+                                                    if (value.length < 6) {
+                                                      return 'Password should be at least 6 characters long';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  onChanged: (value) {
+                                                    controller.creds["mobile"] =
+                                                        value;
+                                                  },
+                                                ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              controller.loginViaEmail.value =
+                                                  !controller
+                                                      .loginViaEmail.value;
+                                              controller.loginViaEmail
+                                                  .refresh();
+                                              controller.creds["email"] = "";
+                                              controller.creds["mobile"] = "";
+                                            },
+                                            child: TextView(
+                                              text:
+                                                  "Login Via ${controller.loginViaEmail.value ? "Phone Number" : "Email"}",
+                                              fontSize: 14,
+                                              weight: FontWeight.bold,
                                             ),
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return 'Please enter text';
-                                              }
-                                              if (value.length < 6) {
-                                                return 'Password should be at least 6 characters long';
-                                              }
-                                              return null;
-                                            },
-                                            onChanged: (value) {
-                                              controller.creds["email"] = value;
-                                            },
                                           ),
                                           const SizedBox(
                                             height: 20,

@@ -18,6 +18,7 @@ class EnquiryDialog extends GetView<CategoryController> {
     double baseWidth = 360;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     return Dialog(
+      surfaceTintColor: ColorPallete.theme,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Obx(
         () => Padding(
@@ -45,7 +46,7 @@ class EnquiryDialog extends GetView<CategoryController> {
               ),
               TextView(
                 text:
-                    "MOQ : ${controller.selectedSupplier.value.productMoq} in ${controller.selectedSupplier.value.productUnit}",
+                    "MOQ : ${controller.selectedSupplier.value.productMoq} Kgs",
                 color: ColorPallete.grey,
                 fontSize: 12,
               ),
@@ -147,7 +148,7 @@ class EnquiryDialog extends GetView<CategoryController> {
                           controller.error.value = controller.location.value ==
                                   ""
                               ? "Location cannot be empty."
-                              : "Qty should be between  ${controller.selectedSupplier.value.productMoq} - 20000 ${controller.selectedSupplier.value.productUnit} ";
+                              : "Qty should be between  ${controller.selectedSupplier.value.productMoq} - 20000 Kgs";
                         }
                       },
                       child: const RoundedContainer(

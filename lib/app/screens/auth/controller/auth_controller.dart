@@ -32,6 +32,8 @@ class AuthController extends GetxController {
   // final _otplessFlutterPlugin = Otpless();
   // RxInt onStep = 1.obs;
 
+  RxBool loginViaEmail = true.obs;
+
   AuthController() {
     _userRepository = UserRepository();
   }
@@ -58,22 +60,23 @@ class AuthController extends GetxController {
   Future signIn({bool? toRsd}) async {
     isLoading.value = true;
     errorMessage.value =
-        //  creds["mobile_number"] == "" || creds["mobile_number"] == null
-        //       ? "Phone Number should not be empty"
-        //       :
-        creds["email"] == "" || creds["email"] == null
+        loginViaEmail.value && (creds["email"] == "" || creds["email"] == null)
             ? translations.emailIsEmpty.tr
-            // : creds["location"] == "" || creds["location"] == null
-            //     ? "Location should not be empty"
-            : creds["password"] == "" || creds["password"] == null
-                ? translations.passwordIsEmpty.tr
-                : "";
+            : !loginViaEmail.value &&
+                    (creds["mobile"] == "" || creds["mobile"] == null)
+                ? "Phone Number should not be empty"
+                : creds["password"] == "" || creds["password"] == null
+                    ? translations.passwordIsEmpty.tr
+                    : "";
     if (errorMessage.value != "") {
       isLoading.value = false;
       return;
     }
-    _userRepository.login(
-        {"email": creds["email"], "password": creds["password"]}).then((value) {
+    _userRepository.login({
+      "email": creds["email"],
+      "phone_number": creds["mobile"],
+      "password": creds["password"]
+    }).then((value) {
       isLoading.value = false;
       if (value.status == Status.COMPLETED) {
         Get.showSnackbar(

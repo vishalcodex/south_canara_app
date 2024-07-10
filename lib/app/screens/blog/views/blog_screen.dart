@@ -76,7 +76,7 @@ class BlogScreen extends GetView<BlogController> {
                                             Get.toNamed(Routes.BLOG_DETAILS,
                                                 arguments: {
                                                   "blog": Blog(
-                                                      blogName: "Product Name")
+                                                      title: "Product Name")
                                                 });
                                           },
                                           child: RoundedContainer(
@@ -182,7 +182,7 @@ class BlogScreen extends GetView<BlogController> {
                                                   clip: Clip
                                                       .antiAliasWithSaveLayer,
                                                   child: Image.network(
-                                                    blog.filename!,
+                                                    blog.image!,
                                                     // height: 75
                                                     width: double.infinity,
                                                     fit: BoxFit.fill,
@@ -200,7 +200,7 @@ class BlogScreen extends GetView<BlogController> {
                                                   children: [
                                                     TextView(
                                                       text:
-                                                          "Title : ${blog.blogName!}",
+                                                          "Title : ${blog.title!}",
                                                       weight: FontWeight.bold,
                                                       fontSize: 14,
                                                       overflow:
@@ -213,9 +213,8 @@ class BlogScreen extends GetView<BlogController> {
                                                       height: 5 * fem,
                                                     ),
                                                     TextView(
-                                                      text:
-                                                          blog.shortDescription ??
-                                                              "",
+                                                      text: blog.description ??
+                                                          "",
                                                       maxlines: 2,
                                                       weight: FontWeight.bold,
                                                       overflow:

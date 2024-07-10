@@ -57,9 +57,12 @@ class CustomDrawer extends GetView<HomeController> {
               SizedBox(
                 height: 5 * fem,
               ),
-              Image.asset(
-                "assets/images/profile.png",
-                height: 75 * fem,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0 * fem),
+                child: Image.asset(
+                  "assets/ui/logo.png",
+                  height: 75 * fem,
+                ),
               ),
 
               SizedBox(

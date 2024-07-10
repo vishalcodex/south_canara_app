@@ -60,7 +60,7 @@ class MyProfileScreen extends GetView<HomeController> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               TextView(
-                                text: "South Canara",
+                                text: "South Canara Agro Mart",
                                 // controller
                                 //     .user.value.accountName!.capitalize!,
                                 fontSize: 18,
