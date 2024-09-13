@@ -59,7 +59,7 @@ class MyFormField extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 2.5 * fem),
               child: TextView(
-                text: fieldName,
+                text: "$fieldName${(required ?? false) ? "*" : " (Optional)"}",
                 fontSize: 14,
               ),
             ),

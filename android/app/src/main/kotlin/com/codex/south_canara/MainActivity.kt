@@ -1,4 +1,4 @@
-package com.codex.southcanara
+package com.codex.south_canara
 
 import io.flutter.embedding.android.FlutterActivity
 

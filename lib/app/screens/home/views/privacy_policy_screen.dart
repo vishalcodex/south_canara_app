@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 import '../../../components/ui/rounded_container.dart';
 import '../../../components/ui/text_view.dart';
-import '../../../providers/api_endpoints.dart';
 import '../controllers/home_controller.dart';
 
 // ignore: must_be_immutable
@@ -19,7 +18,7 @@ class PrivacyPolicyScreen extends GetView<HomeController> {
     // double ffem = fem * 0.97;
     return Scaffold(
       extendBody: true,
-      backgroundColor: ColorPallete.theme,
+      backgroundColor: ColorPallete.primary,
       body: SafeArea(
         child: Scaffold(
           backgroundColor: ColorPallete.theme,
@@ -74,8 +73,8 @@ class PrivacyPolicyScreen extends GetView<HomeController> {
                             },
                           ),
                         )
-                        ..loadRequest(
-                            Uri.parse("${Urls.baseUrl}?privacy_policy")),
+                        ..loadRequest(Uri.parse(
+                            "https://codextechnologies.co.in/privacy-policy.html")),
                     ),
                   ),
                 ),

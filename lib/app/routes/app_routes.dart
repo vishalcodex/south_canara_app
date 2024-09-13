@@ -58,6 +58,7 @@ class Routes {
   static const SUPPLIER_DETAILS = '/supplier_details';
   static const BUYER_DETAILS = '/buyer_details';
   static const CONTACTED_SELLERS = '/contacted_sellers';
+  static const CONTACT_US = '/contact_us';
 
   //VENDOR
   static const VENDOR = '/vendor';

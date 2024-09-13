@@ -140,7 +140,7 @@ class HomeController extends GetxController {
         user.refresh();
       } else {
         Get.find<AuthService>().removeCurrentUser();
-        Get.toNamed(Routes.AUTH);
+        Get.toNamed(Routes.LOGIN);
       }
     });
   }
