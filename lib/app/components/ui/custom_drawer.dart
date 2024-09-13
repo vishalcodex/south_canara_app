@@ -127,15 +127,15 @@ class CustomDrawer extends GetView<HomeController> {
                       },
                     ),
 
-                    SizedBox(
-                      height: 5 * fem,
-                    ),
-                    DrawerItem(
-                        image: "assets/ui/certificates.png",
-                        title: "My Packages",
-                        onPressed: () {
-                          Get.toNamed(Routes.PACKAGES);
-                        }),
+                    // SizedBox(
+                    //   height: 5 * fem,
+                    // ),
+                    // DrawerItem(
+                    //     image: "assets/ui/certificates.png",
+                    //     title: "My Packages",
+                    //     onPressed: () {
+                    //       Get.toNamed(Routes.PACKAGES);
+                    //     }),
                     SizedBox(
                       height: 5 * fem,
                     ),
@@ -181,7 +181,9 @@ class CustomDrawer extends GetView<HomeController> {
                     DrawerItem(
                         image: "assets/ui/contact_us.png",
                         title: translations.contactUs.tr,
-                        onPressed: () {}),
+                        onPressed: () {
+                          Get.toNamed(Routes.CONTACT_US);
+                        }),
                     SizedBox(
                       height: 5 * fem,
                     ),

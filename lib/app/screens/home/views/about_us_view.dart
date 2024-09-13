@@ -17,7 +17,7 @@ class AboutUsView extends GetView<HomeController> {
     // double ffem = fem * 0.97;
     return Scaffold(
       extendBody: true,
-      backgroundColor: ColorPallete.theme,
+      backgroundColor: ColorPallete.primary,
       body: SafeArea(
         child: Scaffold(
           backgroundColor: ColorPallete.theme,

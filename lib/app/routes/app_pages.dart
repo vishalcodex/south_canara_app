@@ -9,6 +9,7 @@ import '../screens/category/views/categories_screen.dart';
 import '../screens/category/views/product_details_screen.dart';
 import '../screens/category/views/supplier_details_screen.dart';
 import '../screens/home/views/about_us_view.dart';
+import '../screens/home/views/contact_us_view.dart';
 import '../screens/home/views/contacted_sellers_screen.dart';
 import '../screens/home/views/package_screen.dart';
 import '../screens/home/views/privacy_policy_screen.dart';
@@ -20,8 +21,6 @@ import '../screens/payment/views/payment_screen.dart';
 import 'package:get/get.dart';
 import '../components/splash.dart';
 import '../screens/auth/binding/auth_binding.dart';
-import '../screens/auth/views/auth_screen.dart';
-import '../screens/auth/views/verify_otp_screen.dart';
 import '../screens/blog/binding/blog_binding.dart';
 import '../screens/blog/views/blog_details_screen.dart';
 import '../screens/blog/views/blog_screen.dart';
@@ -55,12 +54,12 @@ class AppPages {
       binding: HomeBinding(),
       middlewares: [OnBoardingMiddleWare()],
     ),
-    GetPage(
-      name: Routes.AUTH,
-      page: () => AuthScreen(),
-      binding: AuthBinding(),
-      // middlewares: [OnBoardingMiddleWare()],
-    ),
+    // GetPage(
+    //   name: Routes.AUTH,
+    //   page: () => AuthScreen(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [OnBoardingMiddleWare()],
+    // ),
     GetPage(
       name: Routes.FORGOT_PASSWORD,
       page: () => ForgotPasswordScreen(),
@@ -79,12 +78,12 @@ class AppPages {
       binding: AuthBinding(),
       // middlewares: [OnBoardingMiddleWare()],
     ),
-    GetPage(
-      name: Routes.OTP_VERIFY,
-      page: () => VerifyOTPScreen(),
-      binding: AuthBinding(),
-      // middlewares: [OnBoardingMiddleWare()],
-    ),
+    // GetPage(
+    //   name: Routes.OTP_VERIFY,
+    //   page: () => VerifyOTPScreen(),
+    //   binding: AuthBinding(),
+    //   // middlewares: [OnBoardingMiddleWare()],
+    // ),
     GetPage(
       name: Routes.MY_PROFILE,
       page: () => MyProfileScreen(),
@@ -112,6 +111,12 @@ class AppPages {
     GetPage(
       name: Routes.PRIVACY_POLICY,
       page: () => PrivacyPolicyScreen(),
+      binding: HomeBinding(),
+      // middlewares: [OnBoardingMiddleWare()],
+    ),
+    GetPage(
+      name: Routes.CONTACT_US,
+      page: () => ContactUsView(),
       binding: HomeBinding(),
       // middlewares: [OnBoardingMiddleWare()],
     ),

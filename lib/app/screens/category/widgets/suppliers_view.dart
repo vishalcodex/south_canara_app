@@ -367,7 +367,7 @@ class SupplierEntryWidget extends GetView<CategoryController> {
                                   height: 5 * fem,
                                 ),
                                 TextView(
-                                  text: "Location: ${supplier.productOrigin}",
+                                  text: "Origin: ${supplier.productOrigin}",
                                   color: ColorPallete.secondary,
                                   fontSize: 12,
                                   overflow: TextOverflow.ellipsis,

@@ -20,7 +20,7 @@ class ContactedSellersScreen extends GetView<HomeController> {
     // double ffem = fem * 0.97;
     controller.fetchMyEnquires();
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorPallete.primary,
       body: SafeArea(
         child: Scaffold(
           backgroundColor: ColorPallete.theme,

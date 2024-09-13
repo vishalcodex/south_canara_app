@@ -294,13 +294,13 @@ class ProfileEditScreen extends GetView<VendorController> {
                             MyListView(
                               children: [
                                 SizedBox(
-                                  height: 5,
+                                  height: 5 * fem,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
-                                  child: const TextView(
-                                    text: "GST Copy",
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: TextView(
+                                    text: "GST Copy (Optional)",
                                     fontSize: 14,
                                   ),
                                 ),
